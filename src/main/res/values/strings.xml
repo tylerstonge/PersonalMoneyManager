@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PMM</string>
+    <string name="addNewButton">Add purchase</string>
+    <string name="cancelButton">Cancel</string>
+    <string name="submitButton">Submit</string>
 </resources>
