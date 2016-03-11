@@ -41,5 +41,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		}
 	});
 	getActivity().populateListView(new String[] { "Gas", "Groceries" });
-    } 
+    }
+
+
 }
