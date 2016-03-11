@@ -3,7 +3,9 @@ package edu.oswego.tygama344;
 import android.test.ActivityInstrumentationTestCase2;
 import android.database.DataSetObserver;
 import android.widget.ListView;
+import android.widget.Button;
 import android.support.test.runner.AndroidJUnit4;
+import android.app.Instrumentation.ActivityMonitor;
 import android.test.UiThreadTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,25 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testActivityExists() {
 	MainActivity mainActivity = getActivity();
 	assertNotNull(mainActivity);
+    }
+
+    @UiThreadTest
+    public void testOpensAddNewPurchaseActivity() {
+	ActivityMonitor am = getInstrumentation().addMonitor(AddNewPurchaseActivity.class.getName(), null, false);
+	
+	MainActivity mainActivity = getActivity();
+	final Button button = (Button) mainActivity.findViewById(R.id.addNewButton);
+	button.performClick();
+
+	AddNewPurchaseActivity addNewPurchaseActivity = getInstrumentation().waitForMonitorWithTimeout(am, 5000);
+	assertNotNull(addNewPurchaseActivity);
+	addNewPurchaseActivity.finish();
+    }
+
+    @UiThreadTest
+    public void testViewContainsAddNewButton() {
+	final Button addNewButton = (Button) getActivity().findViewById(R.id.addNewButton);
+	assertNotNull(addNewButton);
     }
 
     @UiThreadTest
