@@ -26,10 +26,11 @@ public class MainActivity extends Activity {
 	String[] items = new String[] { "Gas", "Power", "Groceries" };
 	populateListView(items);
 	
+	// Button listener
 	button = (Button) findViewById(R.id.addNewButton);
 	button.setOnClickListener(new View.OnClickListener(){
 		public void onClick(View v) {
-			Intent i = new Intent(getApplicationContext(),AddNewPurchaseActivity.class);
+			Intent i = new Intent(getApplicationContext(), AddNewPurchaseActivity.class);
 			startActivity(i);
 		}
 	});

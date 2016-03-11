@@ -21,19 +21,19 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
     }
 
     @Test
-    public void testActivityExists(){
+    public void testActivityExists() {
         AddNewPurchaseActivity purchaseActivity = getActivity();
         assertNotNull(purchaseActivity);
     }
 
     @UiThreadTest
-    public void testViewContainsCancelButton(){
+    public void testViewContainsCancelButton() {
         final Button cancelButton = (Button) getActivity().findViewById(R.id.cancelButton);
         assertNotNull(cancelButton);
     }
 
     @UiThreadTest
-    public void testViewContainsSubmitButton(){
+    public void testViewContainsSubmitButton() {
         final Button submitButton = (Button) getActivity().findViewById(R.id.submitButton);
         assertNotNull(submitButton);
     }

@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.Button;
 import android.support.test.runner.AndroidJUnit4;
 import android.app.Instrumentation.ActivityMonitor;
+import android.app.Activity;
 import android.test.UiThreadTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,15 +34,20 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	assertNotNull(mainActivity);
     }
 
-    @UiThreadTest
+    @Test
     public void testOpensAddNewPurchaseActivity() {
 	ActivityMonitor am = getInstrumentation().addMonitor(AddNewPurchaseActivity.class.getName(), null, false);
 	
 	MainActivity mainActivity = getActivity();
 	final Button button = (Button) mainActivity.findViewById(R.id.addNewButton);
-	button.performClick();
+	mainActivity.runOnUiThread(new Runnable() {
+		@Override
+		public void run() {
+			button.performClick();
+		}
+	});
 
-	AddNewPurchaseActivity addNewPurchaseActivity = getInstrumentation().waitForMonitorWithTimeout(am, 5000);
+	AddNewPurchaseActivity addNewPurchaseActivity = (AddNewPurchaseActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
 	assertNotNull(addNewPurchaseActivity);
 	addNewPurchaseActivity.finish();
     }
@@ -63,6 +69,4 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	});
 	getActivity().populateListView(new String[] { "Gas", "Groceries" });
     }
-
-
 }
