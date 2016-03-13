@@ -4,6 +4,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.Button;
+import android.widget.EditText;
+import android.app.Instrumentation.ActivityMonitor;
+import android.app.Activity;
 
 import junit.framework.TestResult;
 import org.junit.Test;
@@ -26,6 +29,26 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
         assertNotNull(purchaseActivity);
     }
 
+    @Test
+    public void testReturnToMainOnCancel() {
+	AddNewPurchaseActivity purchaseActivity = getActivity();
+
+	final Button button = (Button) purchaseActivity.findViewById(R.id.cancelButton);
+	purchaseActivity.runOnUiThread(new Runnable() {
+		@Override
+		public void run() {
+			button.performClick();
+		}
+	});
+
+	try {
+		Thread.sleep(5000L);
+	} catch (InterruptedException e) { 
+		// Do nothing	
+	}
+	assertTrue(purchaseActivity.isFinishing());	
+    }
+
     @UiThreadTest
     public void testViewContainsCancelButton() {
         final Button cancelButton = (Button) getActivity().findViewById(R.id.cancelButton);
@@ -36,5 +59,11 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
     public void testViewContainsSubmitButton() {
         final Button submitButton = (Button) getActivity().findViewById(R.id.submitButton);
         assertNotNull(submitButton);
+    }
+
+    @UiThreadTest
+    public void testViewContainsNameEditText() {
+	final EditText nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+	assertNotNull(nameEditText);
     }
 }
