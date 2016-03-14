@@ -10,6 +10,14 @@
 	android:layout_height="wrap_content"
 	android:hint="@string/nameEditText" />
 
+    <EditText
+	android:id="@+id/amountEditText"
+	android:inputType="numberDecimal"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_below="@id/nameEditText"
+	android:hint="@string/amountEditText" />
+
     <Button
 	android:id="@+id/cancelButton"
         android:layout_width="wrap_content"

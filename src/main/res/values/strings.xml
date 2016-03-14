@@ -5,4 +5,5 @@
     <string name="cancelButton">Cancel</string>
     <string name="submitButton">Submit</string>
     <string name="nameEditText">Name</string>
+    <string name="amountEditText">Amount</string>
 </resources>

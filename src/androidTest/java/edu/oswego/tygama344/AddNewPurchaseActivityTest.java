@@ -1,6 +1,11 @@
 package edu.oswego.tygama344;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.InstrumentationRegistry;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.Button;
@@ -10,6 +15,7 @@ import android.app.Activity;
 
 import junit.framework.TestResult;
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 
 /**
@@ -18,23 +24,28 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase2<AddNewPurchaseActivity> {
 
+    private AddNewPurchaseActivity addNewPurchaseActivity;
 
     public AddNewPurchaseActivityTest() {
         super("edu.oswego.tygama344", AddNewPurchaseActivity.class);
     }
 
+    @Before
+    public void setUp() throws Exception {
+	    super.setUp();
+	    injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+	    addNewPurchaseActivity = getActivity();
+    }
+
     @Test
     public void testActivityExists() {
-        AddNewPurchaseActivity purchaseActivity = getActivity();
-        assertNotNull(purchaseActivity);
+        assertNotNull(addNewPurchaseActivity);
     }
 
     @Test
     public void testReturnToMainOnCancel() {
-	AddNewPurchaseActivity purchaseActivity = getActivity();
-
-	final Button button = (Button) purchaseActivity.findViewById(R.id.cancelButton);
-	purchaseActivity.runOnUiThread(new Runnable() {
+	final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.cancelButton);
+	addNewPurchaseActivity.runOnUiThread(new Runnable() {
 		@Override
 		public void run() {
 			button.performClick();
@@ -46,24 +57,36 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
 	} catch (InterruptedException e) { 
 		// Do nothing	
 	}
-	assertTrue(purchaseActivity.isFinishing());	
+	assertTrue(addNewPurchaseActivity.isFinishing());	
+    }
+
+    @Test
+    public void testAmountEditTextOnlyAcceptsNumbers() {
+	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("A"), ViewActions.closeSoftKeyboard());
+	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("")));
     }
 
     @UiThreadTest
     public void testViewContainsCancelButton() {
-        final Button cancelButton = (Button) getActivity().findViewById(R.id.cancelButton);
+        final Button cancelButton = (Button) addNewPurchaseActivity.findViewById(R.id.cancelButton);
         assertNotNull(cancelButton);
     }
 
     @UiThreadTest
     public void testViewContainsSubmitButton() {
-        final Button submitButton = (Button) getActivity().findViewById(R.id.submitButton);
+        final Button submitButton = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
         assertNotNull(submitButton);
     }
 
     @UiThreadTest
     public void testViewContainsNameEditText() {
-	final EditText nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+	final EditText nameEditText = (EditText) addNewPurchaseActivity.findViewById(R.id.nameEditText);
 	assertNotNull(nameEditText);
+    }
+
+    @UiThreadTest
+    public void testViewContainsAmountEditText() {
+	final EditText amountEditText = (EditText) addNewPurchaseActivity.findViewById(R.id.amountEditText);
+	assertNotNull(amountEditText);
     }
 }
