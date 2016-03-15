@@ -8,7 +8,14 @@ import android.widget.ListView;
 import android.widget.Button;
 import android.content.Intent;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity {
+
+    static final int ADD_NEW_PURCHASE_REQUEST = 1;
+
+    PurchaseAdapter adapter;
+    ArrayList<Purchase> items;
     
     ListView lv;	
     Button button;
@@ -23,7 +30,7 @@ public class MainActivity extends Activity {
 	lv = (ListView) findViewById(R.id.historyListView);
 
 	// Dummy values to populate listview
-	String[] items = new String[] { "Gas", "Power", "Groceries" };
+	items = new ArrayList<Purchase>();
 	populateListView(items);
 	
 	// Button listener
@@ -31,18 +38,38 @@ public class MainActivity extends Activity {
 	button.setOnClickListener(new View.OnClickListener(){
 		public void onClick(View v) {
 			Intent i = new Intent(getApplicationContext(), AddNewPurchaseActivity.class);
-			startActivity(i);
+			startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
 		}
 	});
     }
 
     /**
+     *	Receives data from any activities started from MainActivity for result
+     *
+     *	@param requestCode the id which determines which activity is calling the method 
+     *	@param resultCode either RESULT_OK or RESULT_CANCELED; whether the activity closed with a result or not
+     *	@param data the data to be received
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if (requestCode == ADD_NEW_PURCHASE_REQUEST) {
+		if (resultCode == RESULT_OK) {
+			String name = data.getStringExtra("name");
+			double amount = data.getDoubleExtra("amount", 0.0);
+			Purchase purchase = new Purchase(name, amount);
+			items.add(purchase);
+			adapter.notifyDataSetChanged();
+		}
+	}
+    }
+
+    /**
      *	Sets the information the ListView will display
      *
-     *	@param items the String[] of items to display
+     *	@param items An ArrayList of items to display
      */
-    public void populateListView(String[] items) {
-	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, items);
+    public void populateListView(ArrayList<Purchase> items) {
+	adapter = new PurchaseAdapter(this, R.layout.item_purchase, items);
 	lv.setAdapter(adapter);
     }
 }

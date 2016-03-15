@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Before;
 
+import java.util.ArrayList;
+
 /**
  * This is a simple framework for a test of an Application.  See
  * {@link android.test.ApplicationTestCase ApplicationTestCase} for more information on
@@ -81,6 +83,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			assertTrue(lv.getCount() > 0);
 		}
 	});
-	getActivity().populateListView(new String[] { "Gas", "Groceries" });
+	ArrayList<Purchase> testData = new ArrayList<Purchase>();
+	testData.add(new Purchase("Gas", 20.00));
+	getActivity().populateListView(testData);
     }
 }

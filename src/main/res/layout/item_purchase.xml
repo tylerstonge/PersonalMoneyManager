@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<TextView
+		android:id="@+id/nameTextView"
+		android:layout_marginLeft="15dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textStyle="bold"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:text="Name" />
+
+	<TextView
+		android:id="@+id/amountTextView"
+		android:layout_marginRight="15dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="right"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:text="0.00" />
+
+</LinearLayout>
+

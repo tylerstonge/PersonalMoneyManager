@@ -62,8 +62,12 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
 
     @Test
     public void testAmountEditTextOnlyAcceptsNumbers() {
+	// Test inserting the character "A", which should not show up in EditText
 	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("A"), ViewActions.closeSoftKeyboard());
 	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("")));
+	// Test inserting the number "1", which should show up in the EditText
+	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("1"), ViewActions.closeSoftKeyboard());
+	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("1")));
     }
 
     @UiThreadTest
