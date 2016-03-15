@@ -70,6 +70,20 @@ public class AddNewPurchaseActivityTest  extends ActivityInstrumentationTestCase
 	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("1")));
     }
 
+    @Test
+    public void testSubmitDisabledWithEmptyTextFields() {
+	final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
+	assertFalse(button.isEnabled());
+    }
+
+    @Test
+    public void testSubmitEnabledWithFilledTextFields() {
+	final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
+	Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("100.00"), ViewActions.closeSoftKeyboard());	
+	Espresso.onView(ViewMatchers.withId(R.id.nameEditText)).perform(ViewActions.typeText("Groceries"), ViewActions.closeSoftKeyboard());
+	assertTrue(button.isEnabled());
+    }
+
     @UiThreadTest
     public void testViewContainsCancelButton() {
         final Button cancelButton = (Button) addNewPurchaseActivity.findViewById(R.id.cancelButton);

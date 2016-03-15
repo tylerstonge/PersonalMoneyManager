@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.text.TextWatcher;
+import android.text.Editable;
 
 public class AddNewPurchaseActivity extends Activity {
 
@@ -14,6 +16,9 @@ public class AddNewPurchaseActivity extends Activity {
 	EditText nameEditText;
 	EditText amountEditText;
 
+	boolean nameNotEmpty = false;
+	boolean amountNotEmpty = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,7 +26,33 @@ public class AddNewPurchaseActivity extends Activity {
 
 		// Find the name and amount EditText boxes
 		nameEditText = (EditText) findViewById(R.id.nameEditText);
+		nameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int end, int after) { }
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				nameNotEmpty = (s.length() > 0);
+				unlockButton();
+			}
+		});
 		amountEditText = (EditText) findViewById(R.id.amountEditText);
+		amountEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int end, int after) { }
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				amountNotEmpty = (s.length() > 0);
+				unlockButton();
+			}
+		});
 
 		// Cancel button returns to MainActivity
 		cancelButton = (Button) findViewById(R.id.cancelButton);
@@ -34,6 +65,7 @@ public class AddNewPurchaseActivity extends Activity {
 
 		// Submit button sends data back to MainActivity
 		submitButton = (Button) findViewById(R.id.submitButton);
+		submitButton.setEnabled(false);
 		submitButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent result = new Intent();
@@ -43,6 +75,14 @@ public class AddNewPurchaseActivity extends Activity {
 				finish();
 			}
 		});
+	}
+
+	public void unlockButton() {
+		if (amountNotEmpty && nameNotEmpty) {
+			submitButton.setEnabled(true);
+		} else {
+			submitButton.setEnabled(false);
+		}
 	}
 
 	private String getNameFromEditText() {
