@@ -7,9 +7,8 @@ This mobile app must allow me, a user, to categorize my spendings and purchases 
 ## Requirements
 | ID   | Priority weight | Requirement |
 |------|-----------------|-------------|
-|REQ-1a|3| The system will allow users to enter the size of their household |
-|REQ-1b|4| The system will allow users to input their income and pay-period |
-|REQ-1c|3| The system will allow the user to change household size, income, and pay-period |
+|REQ-1a|3| The system will allow users to enter the size of their household, their income and pay-period |
+|REQ-1b|3| The system will allow the user to change household size, income, and pay-period |
 |REQ-2a|5| The user can input overall cost from each receipt. |
 |REQ-2b|4| Users can save pictures of receipts to reference individual items later. |
 |REQ-3 |5| Items can be categorized by type. |
