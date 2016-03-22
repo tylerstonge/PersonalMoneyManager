@@ -3,6 +3,8 @@ package edu.oswego.tygama344;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Button;
@@ -41,6 +43,17 @@ public class MainActivity extends Activity {
 			startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
 		}
 	});
+    }
+
+    /**
+     *	Override method to add items to ActionBar menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+	MenuInflater inflater = getMenuInflater();
+	
+	inflater.inflate(R.menu.main_activity_bar, menu);
+	return super.onCreateOptionsMenu(menu);
     }
 
     /**

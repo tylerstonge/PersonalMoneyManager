@@ -1,3 +1,7 @@
+package edu.oswego.tygama344;
+
+import android.provider.BaseColumns;
+
 public final class PurchaseContract {
 	
 	public PurchaseContract() { 
