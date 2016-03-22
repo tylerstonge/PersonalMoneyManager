@@ -15,14 +15,14 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
-	static final int SETTINGS_REQUEST = 1;
+    static final int SETTINGS_REQUEST = 1;
 
     PurchaseAdapter adapter;
     ArrayList<Purchase> items;
     
     ListView lv;	
     Button addButton;
-	Button settingsButton;
+    Button settingsButton;
 
     /** Called when the activity is first created. */
     @Override
