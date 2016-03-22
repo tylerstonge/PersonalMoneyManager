@@ -67,6 +67,22 @@ public class MainActivity extends Activity {
     }
 
     /**
+     *	Button selected from ActionBar menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+	// Process options
+	switch(item.getItemId()) {
+		case R.id.actionSettings:
+			// Launch SettingsActivity
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
+	}
+    }
+
+    /**
      *	Receives data from any activities started from MainActivity for result
      *
      *	@param requestCode the id which determines which activity is calling the method 
