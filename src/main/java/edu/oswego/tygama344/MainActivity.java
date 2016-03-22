@@ -13,12 +13,14 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
+	static final int SETTINGS_REQUEST = 1;
 
     PurchaseAdapter adapter;
     ArrayList<Purchase> items;
     
     ListView lv;	
-    Button button;
+    Button addButton;
+	Button settingsButton;
 
     /** Called when the activity is first created. */
     @Override
@@ -34,13 +36,21 @@ public class MainActivity extends Activity {
 	populateListView(items);
 	
 	// Button listener
-	button = (Button) findViewById(R.id.addNewButton);
-	button.setOnClickListener(new View.OnClickListener(){
+	addButton = (Button) findViewById(R.id.addNewButton);
+	addButton.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View v) {
 			Intent i = new Intent(getApplicationContext(), AddNewPurchaseActivity.class);
 			startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
 		}
 	});
+
+	settingsButton = (Button) findViewById(R.id.settingsButton);
+	settingsButton.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) {
+			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+			startActivityForResult(i, SETTINGS_REQUEST);
+			}
+		});
     }
 
     /**
