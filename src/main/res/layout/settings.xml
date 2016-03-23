@@ -13,11 +13,4 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.11" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Botn m8"
-        android:id="@+id/settingsButton"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.11" />
 </LinearLayout>

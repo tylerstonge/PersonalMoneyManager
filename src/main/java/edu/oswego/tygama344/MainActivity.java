@@ -2,6 +2,7 @@ package edu.oswego.tygama344;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,13 +47,7 @@ public class MainActivity extends Activity {
 		}
 	});
 
-	settingsButton = (Button) findViewById(R.id.settingsButton);
-	settingsButton.setOnClickListener(new View.OnClickListener(){
-			public void onClick(View v) {
-			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-			startActivityForResult(i, SETTINGS_REQUEST);
-			}
-		});
+
     }
 
     /**
@@ -74,7 +69,9 @@ public class MainActivity extends Activity {
 	// Process options
 	switch(item.getItemId()) {
 		case R.id.actionSettings:
-			// Launch SettingsActivity
+
+			Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+			startActivityForResult(i, SETTINGS_REQUEST);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
