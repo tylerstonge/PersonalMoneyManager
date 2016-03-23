@@ -2,9 +2,9 @@ package edu.oswego.tygama344;
 
 import android.provider.BaseColumns;
 
-public final class PurchaseContract {
-	
-	public PurchaseContract() { 
+public final class DatabaseContract {
+
+	public DatabaseContract() { 
 		// Empty contructor
 	}
 
