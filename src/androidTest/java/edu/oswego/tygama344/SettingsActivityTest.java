@@ -2,11 +2,14 @@ package edu.oswego.tygama344;
 
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +17,10 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class SettingsActivityTest extends ActivityInstrumentationTestCase2<SettingsActivity> {
@@ -47,5 +53,15 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         assertNotNull(settingsActivity);
         settingsActivity.finish();
     }
+
+    @Test
+    public void testSwitchWithId() {
+        onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
+        onView(withId(R.id.stats)).perform(click());
+        onView(withId(R.id.stats)).check(matches(not(isChecked())));
+
+    }
+
+
 
 }
