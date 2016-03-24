@@ -56,13 +56,13 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         settingsActivity.finish();
     }
 
-    @Test
+    @UiThreadTest
     public void testSubmitDisabledWithEmptyTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
         assertFalse(button.isEnabled());
     }
 
-    @Test
+    @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
         Espresso.onView(ViewMatchers.withId(R.id.payperiod)).perform(ViewActions.typeText("14"), ViewActions.closeSoftKeyboard());
@@ -71,7 +71,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         assertTrue(button.isEnabled());
     }
 
-    @Test
+    @UiThreadTest
     public void testSwitch() {
         onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
         onView(withId(R.id.stats)).perform(click());
