@@ -53,11 +53,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 new String[]{DatabaseContract.PurchaseEntry.COLUMN_NAME, DatabaseContract.PurchaseEntry.COLUMN_AMOUNT},
                 DatabaseContract.PurchaseEntry._ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             float amount = cursor.getFloat(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            return new Purchase(name, amount);
+            cursor.close();
+
+            return new Purchase(id, name, amount);
         }
         return null;
     }
@@ -65,13 +66,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public ArrayList<Purchase> getAllPurchases() {
 		ArrayList purchases = new ArrayList<Purchase>();
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from " + DatabaseContract.PurchaseEntry.TABLE_NAME, null);
-		cursor.moveToFirst();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME, null);
+        cursor.moveToFirst();
 
 		while (!cursor.isAfterLast()) {
+            int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             float amount = cursor.getFloat(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            purchases.add(new Purchase(name, amount));
+            purchases.add(new Purchase(id, name, amount));
             cursor.moveToNext();
         }
 
@@ -87,4 +89,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return count;
     }
+
+    public boolean removePurchase(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rows = db.delete(DatabaseContract.PurchaseEntry.TABLE_NAME, DatabaseContract.PurchaseEntry._ID + "=? ",
+                new String[]{Integer.toString(id)});
+        return rows == 1;
+    }
+
 }
