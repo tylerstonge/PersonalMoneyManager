@@ -14,24 +14,24 @@ android {
 
     defaultConfig {
         minSdkVersion 8
-	targetSdkVersion 23
-	versionCode 1
-	versionName "1.0"
-	testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
 
     lintOptions {
-	abortOnError false
+        abortOnError false
     }
 
     buildTypes {
         release {
             //runProguard false
-	    minifyEnabled false
+            minifyEnabled false
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }
@@ -43,7 +43,7 @@ repositories {
     mavenLocal()
 }
 
-dependencies { 
+dependencies {
     compile 'junit:junit:4.12'
     compile 'org.mockito:mockito-core:1.10.19'
     compile 'org.hamcrest:hamcrest-library:1.3'
