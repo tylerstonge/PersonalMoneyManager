@@ -1,22 +1,18 @@
 package edu.oswego.tygama344;
 
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.InstrumentationRegistry;
-import android.test.ActivityInstrumentationTestCase2;
-import android.database.DataSetObserver;
-import android.widget.ListView;
-import android.widget.Button;
-import android.support.test.runner.AndroidJUnit4;
-import android.app.Instrumentation.ActivityMonitor;
-import android.app.Activity;
-import android.test.UiThreadTest;
 
+import android.app.Instrumentation.ActivityMonitor;
+import android.database.DataSetObserver;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
+import android.widget.Button;
+import android.widget.ListView;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Before;
 
 import java.util.ArrayList;
 
@@ -41,50 +37,50 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     @Before
     public void setUp() throws Exception {
-	super.setUp();
-	injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-	mainActivity = getActivity();
+        super.setUp();
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        mainActivity = getActivity();
     }
 
     @Test
     public void testActivityExists() {
-	assertNotNull(mainActivity);
+        assertNotNull(mainActivity);
     }
 
     @Test
     public void testOpensAddNewPurchaseActivity() {
-	ActivityMonitor am = getInstrumentation().addMonitor(AddNewPurchaseActivity.class.getName(), null, false);
-	
-	final Button button = (Button) mainActivity.findViewById(R.id.addNewButton);
-	mainActivity.runOnUiThread(new Runnable() {
-		@Override
-		public void run() {
-			button.performClick();
-		}
-	});
+        ActivityMonitor am = getInstrumentation().addMonitor(AddNewPurchaseActivity.class.getName(), null, false);
 
-	AddNewPurchaseActivity addNewPurchaseActivity = (AddNewPurchaseActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
-	assertNotNull(addNewPurchaseActivity);
-	addNewPurchaseActivity.finish();
+        final Button button = (Button) mainActivity.findViewById(R.id.addNewButton);
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+            }
+        });
+
+        AddNewPurchaseActivity addNewPurchaseActivity = (AddNewPurchaseActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
+        assertNotNull(addNewPurchaseActivity);
+        addNewPurchaseActivity.finish();
     }
 
     @UiThreadTest
     public void testViewContainsAddNewButton() {
-	final Button addNewButton = (Button) mainActivity.findViewById(R.id.addNewButton);
-	assertNotNull(addNewButton);
+        final Button addNewButton = (Button) mainActivity.findViewById(R.id.addNewButton);
+        assertNotNull(addNewButton);
     }
 
     @UiThreadTest
     public void testPopulateList() {
-	final ListView lv = (ListView) mainActivity.findViewById(R.id.historyListView);
-	lv.getAdapter().registerDataSetObserver(new DataSetObserver() {
-		@Override
-		public void onChanged() {
-			assertTrue(lv.getCount() > 0);
-		}
-	});
-	ArrayList<Purchase> testData = new ArrayList<Purchase>();
-	testData.add(new Purchase("Gas", 20.00));
-	getActivity().populateListView(testData);
+        final ListView lv = (ListView) mainActivity.findViewById(R.id.historyListView);
+        lv.getAdapter().registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                assertTrue(lv.getCount() > 0);
+            }
+        });
+        ArrayList<Purchase> testData = new ArrayList<Purchase>();
+        testData.add(new Purchase("Gas", 20.00));
+        getActivity().populateListView(testData);
     }
 }
