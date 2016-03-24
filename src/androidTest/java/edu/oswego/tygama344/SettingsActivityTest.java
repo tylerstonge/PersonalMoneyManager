@@ -29,21 +29,21 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         assertNotNull(settingsActivity);
     }
 
-    @Test
-    public void testOpensAddNewPurchaseActivity() {
-        Instrumentation.ActivityMonitor am = getInstrumentation().addMonitor(AddNewPurchaseActivity.class.getName(), null, false);
-
-        final Button button = (Button) settingsActivity.findViewById(R.id.actionSettings);
-        settingsActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                button.performClick();
-            }
-        });
-
-        SettingsActivity settingsActivity = (SettingsActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
-        assertNotNull(settingsActivity);
-        settingsActivity.finish();
-    }
+//    @Test
+//    public void testOpensSettingsActivity() {
+//        Instrumentation.ActivityMonitor am = getInstrumentation().addMonitor(SettingsActivity.class.getName(), null, false);
+//
+//        final Button button = (Button) settingsActivity.findViewById(R.id.actionSettings);
+//        settingsActivity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                button.performClick();
+//            }
+//        });
+//
+//        SettingsActivity settingsActivity = (SettingsActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
+//        assertNotNull(settingsActivity);
+//        settingsActivity.finish();
+//    }
 
 }
