@@ -21,10 +21,12 @@ public class SettingsActivity extends Activity {
 
     private EditText payperiod;
     private EditText household;
+    private EditText income;
     private Button submitButton;
 
     boolean payeriodNotEmpty = false;
     boolean householdNotEmpty = false;
+    boolean incomeNotEmpty = false;
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -61,6 +63,20 @@ public class SettingsActivity extends Activity {
                 unlockButton();
             }
         });
+        income = (EditText) findViewById(R.id.income);
+        income.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int end, int after) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                incomeNotEmpty = (s.length() > 0);
+                unlockButton();
+            }
+        });
 
         // Submit button sends data back to MainActivity
         submitButton = (Button) findViewById(R.id.button);
@@ -70,6 +86,7 @@ public class SettingsActivity extends Activity {
                 Intent result = new Intent();
                 result.putExtra("payperiod", getAmountFromEditText(payperiod));
                 result.putExtra("household", getAmountFromEditText(household));
+                result.putExtra("income", getAmountFromEditText(income));
                 setResult(Activity.RESULT_OK, result);
                 finish();
             }
@@ -97,15 +114,12 @@ public class SettingsActivity extends Activity {
     }
 
     public void unlockButton() {
-        if (payeriodNotEmpty && householdNotEmpty) {
+        if (payeriodNotEmpty && householdNotEmpty && incomeNotEmpty) {
             submitButton.setEnabled(true);
         } else {
             submitButton.setEnabled(false);
         }
     }
-
-
-
 
     private double getAmountFromEditText(TextView t) {
         return Double.parseDouble(t.getText().toString());

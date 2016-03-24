@@ -17,6 +17,8 @@
               android:inputType="numberDecimal"/>
     <EditText android:id="@+id/household" android:layout_width="match_parent" android:layout_height="wrap_content"
               android:hint="Household" android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/income" android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:hint="Income" android:inputType="numberDecimal"/>
     <Button android:id="@+id/button" android:clickable="false" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
