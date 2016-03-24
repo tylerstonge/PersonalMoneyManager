@@ -2,6 +2,8 @@ package edu.oswego.tygama344;
 
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
@@ -52,6 +54,21 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         SettingsActivity settingsActivity = (SettingsActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
         assertNotNull(settingsActivity);
         settingsActivity.finish();
+    }
+
+    @Test
+    public void testSubmitDisabledWithEmptyTextFields() {
+        final Button button = (Button) settingsActivity.findViewById(R.id.button);
+        assertFalse(button.isEnabled());
+    }
+
+    @Test
+    public void testSubmitEnabledWithFilledTextFields() {
+        final Button button = (Button) settingsActivity.findViewById(R.id.button);
+        Espresso.onView(ViewMatchers.withId(R.id.payperiod)).perform(ViewActions.typeText("14"), ViewActions.closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withId(R.id.household)).perform(ViewActions.typeText("3"), ViewActions.closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withId(R.id.income)).perform(ViewActions.typeText("2000"), ViewActions.closeSoftKeyboard());
+        assertTrue(button.isEnabled());
     }
 
     @Test
