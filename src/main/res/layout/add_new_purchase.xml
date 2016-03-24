@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
-	android:id="@+id/nameEditText"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:hint="@string/nameEditText" />
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/nameEditText" />
 
     <EditText
-	android:id="@+id/amountEditText"
-	android:inputType="numberDecimal"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:layout_below="@id/nameEditText"
-	android:hint="@string/amountEditText" />
+        android:id="@+id/amountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameEditText"
+        android:hint="@string/amountEditText"
+        android:inputType="numberDecimal" />
 
     <Button
-	android:id="@+id/cancelButton"
+        android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_alignParentBottom="true"
-	android:layout_alignParentStart="true"
-	android:layout_alignParentLeft="true"
-	android:layout_marginBottom="15dp"
-	android:layout_marginLeft="15dp"
-	android:layout_marginStart="15dp"
-	android:text="@string/cancelButton" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/cancelButton" />
 
     <Button
-	android:id="@+id/submitButton"
-	android:clickable="false"
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_alignParentRight="true"
-	android:layout_alignParentBottom="true"
-	android:layout_alignParentEnd="true"
-	android:layout_marginBottom="15dp"
-	android:layout_marginEnd="15dp"
-	android:layout_marginRight="15dp"
-	android:text="@string/submitButton" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:text="@string/submitButton" />
 
 
 </RelativeLayout>

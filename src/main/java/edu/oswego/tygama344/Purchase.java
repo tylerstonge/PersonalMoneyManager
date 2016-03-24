@@ -1,14 +1,26 @@
 package edu.oswego.tygama344;
 
 public class Purchase {
-	
-	private String name;
+
+    private int id;
+    private String name;
 	private double amount;
 
-	public Purchase(String name, double amount) {
-		this.name = name;
+    public Purchase(int id, String name, double amount) {
+        this.id = id;
+        this.name = name;
 		this.amount = amount;
 	}
+
+    public Purchase(String name, double amount) {
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
 
 	public String getName() {
 		return name;

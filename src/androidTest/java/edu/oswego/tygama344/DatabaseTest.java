@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -66,4 +67,21 @@ public class DatabaseTest {
         // ArrayList should have before+3 entries
         assertEquals(purchases.size(), 3 + before);
     }
+
+    @Test
+    public void testRemovePurchase() {
+        // Insert one purchase to guarantee database is not empty
+        db.insertPurchase("Electricity", 65f);
+
+        // Get all purchases and choose first
+        ArrayList<Purchase> purchases = db.getAllPurchases();
+        Purchase p = purchases.get(0);
+
+        // Delete first element from database
+        db.removePurchase(p.getId());
+
+        // Attempting to retrieve the deleted element should return null
+        assertNull(db.getPurchase(p.getId()));
+    }
+
 }

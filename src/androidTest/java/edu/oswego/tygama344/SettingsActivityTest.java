@@ -8,10 +8,8 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
-import org.hamcrest.Matcher;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,9 +74,5 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
         onView(withId(R.id.stats)).perform(click());
         onView(withId(R.id.stats)).check(matches(not(isChecked())));
-
     }
-
-
-
 }
