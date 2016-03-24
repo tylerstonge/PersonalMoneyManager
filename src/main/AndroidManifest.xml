@@ -10,6 +10,8 @@
             </intent-filter>
         </activity>
 	<activity android:name="AddNewPurchaseActivity" />
-    <activity android:name=".SettingsActivity" />
+    <activity android:name="SettingsActivity"
+        android:parentActivityName=".MainActivity"
+    />
     </application>
 </manifest>
