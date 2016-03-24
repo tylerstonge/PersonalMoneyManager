@@ -16,7 +16,6 @@ import static edu.oswego.tygama344.R.id.submitButton;
 
 
 public class SettingsActivity extends Activity {
-    private TextView switchStatus;
     private Switch mySwitch;
 
     private EditText payperiod;
@@ -92,7 +91,6 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.stats);
 
         //set the switch to ON
@@ -105,9 +103,10 @@ public class SettingsActivity extends Activity {
                                          boolean isChecked) {
 
                 if (isChecked) {
-                    switchStatus.setText("Switch is currently ON");
-                } else {
-                    switchStatus.setText("Switch is currently OFF");
+//                    switchStatus.setText("Sending");
+                }
+                else {
+//                    switchStatus.setText("Switch is currently OFF");
                 }
             }
         });

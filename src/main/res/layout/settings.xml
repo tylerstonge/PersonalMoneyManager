@@ -31,10 +31,5 @@
             android:text="Send statistics to the server"
             android:id="@+id/stats" android:layout_weight="0.11"
             android:checked="false"/>
-    <TextView
-            android:layout_width="173dp"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/switchStatus" android:layout_weight="0.11"/>
 
 </LinearLayout>
