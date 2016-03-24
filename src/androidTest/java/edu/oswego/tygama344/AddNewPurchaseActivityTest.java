@@ -1,5 +1,6 @@
 package edu.oswego.tygama344;
 
+import android.support.annotation.UiThread;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -55,7 +56,7 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
         assertTrue(addNewPurchaseActivity.isFinishing());
     }
 
-    @Test
+    @UiThreadTest
     public void testAmountEditTextOnlyAcceptsNumbers() {
         // Test inserting the character "A", which should not show up in EditText
         Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("A"), ViewActions.closeSoftKeyboard());
@@ -65,13 +66,13 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
         Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("1")));
     }
 
-    @Test
+    @UiThreadTest
     public void testSubmitDisabledWithEmptyTextFields() {
         final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
         assertFalse(button.isEnabled());
     }
 
-    @Test
+    @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
         Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).perform(ViewActions.typeText("100.00"), ViewActions.closeSoftKeyboard());
