@@ -67,8 +67,12 @@ public class MainActivity extends Activity {
         // Process options
         switch (item.getItemId()) {
             case R.id.actionSettings:
-                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivityForResult(i, SETTINGS_REQUEST);
+                Intent i1 = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivityForResult(i1, SETTINGS_REQUEST);
+                return true;
+            case R.id.actionInfo:
+                Intent i2 = new Intent(getApplicationContext(), InfoActivity.class);
+                startActivityForResult(i2, SETTINGS_REQUEST);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
