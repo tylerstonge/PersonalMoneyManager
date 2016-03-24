@@ -55,7 +55,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     }
 
     @Test
-    public void testSwitchWithId() {
+    public void testSwitch() {
         onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
         onView(withId(R.id.stats)).perform(click());
         onView(withId(R.id.stats)).check(matches(not(isChecked())));
