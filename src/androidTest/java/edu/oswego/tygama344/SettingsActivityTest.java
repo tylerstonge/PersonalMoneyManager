@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.widget.Button;
 
 import org.junit.Before;
@@ -39,6 +40,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     }
 
     @Test
+    @UiThreadTest
     public void testSubmitDisabledWithEmptyTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
         assertFalse(button.isEnabled());
@@ -55,6 +57,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     }*/
 
     @Test
+    @UiThreadTest
     public void testSwitch() {
         onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
         onView(withId(R.id.stats)).perform(click());
