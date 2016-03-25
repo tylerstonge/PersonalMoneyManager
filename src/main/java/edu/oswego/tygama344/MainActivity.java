@@ -20,7 +20,6 @@ public class MainActivity extends Activity {
     PurchaseAdapter adapter;
     ArrayList<Purchase> items;
 
-    ListView lv;
     Button addButton;
 
     /**
@@ -30,9 +29,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        // Get a handle to the ListView
-        lv = (ListView) findViewById(R.id.historyListView);
 
         // Dummy values to populate listview
         items = new ArrayList<Purchase>();
@@ -107,6 +103,7 @@ public class MainActivity extends Activity {
      */
     public void populateListView(ArrayList<Purchase> items) {
         adapter = new PurchaseAdapter(this, R.layout.item_purchase, items);
+        ListView lv = (ListView) findViewById(R.id.historyListView);
         lv.setAdapter(adapter);
     }
 }

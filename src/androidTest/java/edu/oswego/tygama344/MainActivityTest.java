@@ -1,20 +1,21 @@
 package edu.oswego.tygama344;
 
 
+import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
-import android.database.DataSetObserver;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 import android.widget.Button;
-import android.widget.ListView;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * This is a simple framework for a test of an Application.  See
@@ -32,7 +33,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     private MainActivity mainActivity;
 
     public MainActivityTest() {
-        super("edu.oswego.tygama344", MainActivity.class);
+        super(MainActivity.class);
     }
 
     @Before
@@ -64,12 +65,25 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         addNewPurchaseActivity.finish();
     }
 
-    @UiThreadTest
+    @Test
+    public void testOpensSettingsActivity() {
+        Instrumentation.ActivityMonitor am = getInstrumentation().addMonitor(SettingsActivity.class.getName(), null, false);
+
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        onView(withText("Settings")).perform(click());
+
+        SettingsActivity settingsActivity = (SettingsActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
+        assertNotNull(settingsActivity);
+        settingsActivity.finish();
+    }
+
+    @Test
     public void testViewContainsAddNewButton() {
         final Button addNewButton = (Button) mainActivity.findViewById(R.id.addNewButton);
         assertNotNull(addNewButton);
     }
 
+/*  @Test
     @UiThreadTest
     public void testPopulateList() {
         final ListView lv = (ListView) mainActivity.findViewById(R.id.historyListView);
@@ -82,5 +96,5 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         ArrayList<Purchase> testData = new ArrayList<Purchase>();
         testData.add(new Purchase("Gas", 20.00));
         getActivity().populateListView(testData);
-    }
+    }*/
 }

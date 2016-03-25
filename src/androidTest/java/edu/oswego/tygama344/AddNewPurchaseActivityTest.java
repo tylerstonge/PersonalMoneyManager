@@ -1,6 +1,5 @@
 package edu.oswego.tygama344;
 
-import android.support.annotation.UiThread;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -23,7 +22,7 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
     private AddNewPurchaseActivity addNewPurchaseActivity;
 
     public AddNewPurchaseActivityTest() {
-        super("edu.oswego.tygama344", AddNewPurchaseActivity.class);
+        super(AddNewPurchaseActivity.class);
     }
 
     @Before
@@ -56,6 +55,7 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
         assertTrue(addNewPurchaseActivity.isFinishing());
     }
 
+    @Test
     @UiThreadTest
     public void testAmountEditTextOnlyAcceptsNumbers() {
         // Test inserting the character "A", which should not show up in EditText
@@ -66,12 +66,14 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
         Espresso.onView(ViewMatchers.withId(R.id.amountEditText)).check(ViewAssertions.matches(ViewMatchers.withText("1")));
     }
 
+    @Test
     @UiThreadTest
     public void testSubmitDisabledWithEmptyTextFields() {
         final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
         assertFalse(button.isEnabled());
     }
 
+    @Test
     @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
@@ -80,24 +82,28 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
         assertTrue(button.isEnabled());
     }
 
+    @Test
     @UiThreadTest
     public void testViewContainsCancelButton() {
         final Button cancelButton = (Button) addNewPurchaseActivity.findViewById(R.id.cancelButton);
         assertNotNull(cancelButton);
     }
 
+    @Test
     @UiThreadTest
     public void testViewContainsSubmitButton() {
         final Button submitButton = (Button) addNewPurchaseActivity.findViewById(R.id.submitButton);
         assertNotNull(submitButton);
     }
 
+    @Test
     @UiThreadTest
     public void testViewContainsNameEditText() {
         final EditText nameEditText = (EditText) addNewPurchaseActivity.findViewById(R.id.nameEditText);
         assertNotNull(nameEditText);
     }
 
+    @Test
     @UiThreadTest
     public void testViewContainsAmountEditText() {
         final EditText amountEditText = (EditText) addNewPurchaseActivity.findViewById(R.id.amountEditText);

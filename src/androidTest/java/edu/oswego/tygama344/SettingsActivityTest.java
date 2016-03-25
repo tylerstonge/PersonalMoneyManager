@@ -1,13 +1,10 @@
 package edu.oswego.tygama344;
 
-import android.app.Instrumentation;
+
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 import android.widget.Button;
 
 import org.junit.Before;
@@ -15,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -27,7 +23,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     private SettingsActivity settingsActivity;
 
     public SettingsActivityTest() {
-        super("edu.oswego.tygama344", SettingsActivity.class);
+        super(SettingsActivity.class);
     }
 
     @Before
@@ -42,24 +38,13 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         assertNotNull(settingsActivity);
     }
 
-    @UiThreadTest
-    public void testOpensSettingsActivity() {
-        Instrumentation.ActivityMonitor am = getInstrumentation().addMonitor(SettingsActivity.class.getName(), null, false);
-
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-        onView(withId(R.id.actionSettings)).perform(click());
-
-        SettingsActivity settingsActivity = (SettingsActivity) getInstrumentation().waitForMonitorWithTimeout(am, 5000);
-        assertNotNull(settingsActivity);
-        settingsActivity.finish();
-    }
-
-    @UiThreadTest
+    @Test
     public void testSubmitDisabledWithEmptyTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
         assertFalse(button.isEnabled());
     }
 
+/*    @Test
     @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
@@ -67,9 +52,9 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         Espresso.onView(ViewMatchers.withId(R.id.household)).perform(ViewActions.typeText("3"), ViewActions.closeSoftKeyboard());
         Espresso.onView(ViewMatchers.withId(R.id.income)).perform(ViewActions.typeText("2000"), ViewActions.closeSoftKeyboard());
         assertTrue(button.isEnabled());
-    }
+    }*/
 
-    @UiThreadTest
+    @Test
     public void testSwitch() {
         onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
         onView(withId(R.id.stats)).perform(click());
