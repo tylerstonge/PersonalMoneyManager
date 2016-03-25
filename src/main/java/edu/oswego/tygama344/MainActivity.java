@@ -15,9 +15,10 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
-    static final int SETTINGS_REQUEST = 2;
 
+    MySQLiteHelper db;
     PurchaseAdapter adapter;
+    ListView lv;
     ArrayList<Purchase> items;
 
     Button addButton;
@@ -30,8 +31,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Dummy values to populate listview
-        items = new ArrayList<Purchase>();
+        lv = (ListView) findViewById(R.id.historyListView);
+
+        // Populate list with information from database
+        db = new MySQLiteHelper(this);
+        items = db.getAllPurchases();
         populateListView(items);
 
         // Button listener
@@ -64,11 +68,11 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.actionSettings:
                 Intent i1 = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivityForResult(i1, SETTINGS_REQUEST);
+                startActivity(i1);
                 return true;
             case R.id.actionInfo:
                 Intent i2 = new Intent(getApplicationContext(), InfoActivity.class);
-                startActivityForResult(i2, SETTINGS_REQUEST);
+                startActivity(i2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -87,13 +91,20 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_NEW_PURCHASE_REQUEST) {
             if (resultCode == RESULT_OK) {
+                // Create purchase object
                 String name = data.getStringExtra("name");
                 double amount = data.getDoubleExtra("amount", 0.0);
-                Purchase purchase = new Purchase(name, amount);
-                items.add(purchase);
-                adapter.notifyDataSetChanged();
+                // Store the new purchase object
+                db.insertPurchase(new Purchase(name, amount));
+                adapter.replaceList(db.getAllPurchases());
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.replaceList(db.getAllPurchases());
     }
 
     /**
@@ -103,7 +114,6 @@ public class MainActivity extends Activity {
      */
     public void populateListView(ArrayList<Purchase> items) {
         adapter = new PurchaseAdapter(this, R.layout.item_purchase, items);
-        ListView lv = (ListView) findViewById(R.id.historyListView);
         lv.setAdapter(adapter);
     }
 }
