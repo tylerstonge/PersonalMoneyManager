@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
@@ -19,7 +17,6 @@ public class MainActivity extends Activity {
     MySQLiteHelper db;
     PurchaseAdapter adapter;
     ListView lv;
-    ArrayList<Purchase> items;
 
     Button addButton;
 
@@ -35,8 +32,8 @@ public class MainActivity extends Activity {
 
         // Populate list with information from database
         db = new MySQLiteHelper(this);
-        items = db.getAllPurchases();
-        populateListView(items);
+        adapter = new PurchaseAdapter(this, R.layout.item_purchase, db.getAllPurchases());
+        lv.setAdapter(adapter);
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
@@ -105,15 +102,5 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         adapter.replaceList(db.getAllPurchases());
-    }
-
-    /**
-     * Sets the information the ListView will display
-     *
-     * @param items An ArrayList of items to display
-     */
-    public void populateListView(ArrayList<Purchase> items) {
-        adapter = new PurchaseAdapter(this, R.layout.item_purchase, items);
-        lv.setAdapter(adapter);
     }
 }

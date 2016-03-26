@@ -82,19 +82,4 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         final Button addNewButton = (Button) mainActivity.findViewById(R.id.addNewButton);
         assertNotNull(addNewButton);
     }
-
-/*  @Test
-    @UiThreadTest
-    public void testPopulateList() {
-        final ListView lv = (ListView) mainActivity.findViewById(R.id.historyListView);
-        lv.getAdapter().registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-                assertTrue(lv.getCount() > 0);
-            }
-        });
-        ArrayList<Purchase> testData = new ArrayList<Purchase>();
-        testData.add(new Purchase("Gas", 20.00));
-        getActivity().populateListView(testData);
-    }*/
 }

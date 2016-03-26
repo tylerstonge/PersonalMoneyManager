@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -46,20 +48,19 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
         assertFalse(button.isEnabled());
     }
 
-/*    @Test
+    @Test
     @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
-        Espresso.onView(ViewMatchers.withId(R.id.payperiod)).perform(ViewActions.typeText("14"), ViewActions.closeSoftKeyboard());
-        Espresso.onView(ViewMatchers.withId(R.id.household)).perform(ViewActions.typeText("3"), ViewActions.closeSoftKeyboard());
-        Espresso.onView(ViewMatchers.withId(R.id.income)).perform(ViewActions.typeText("2000"), ViewActions.closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.payperiod)).perform(typeText("14"), closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.household)).perform(typeText("3"), closeSoftKeyboard());
+        onView(ViewMatchers.withId(R.id.income)).perform(typeText("2000"), closeSoftKeyboard());
         assertTrue(button.isEnabled());
-    }*/
+    }
 
     @Test
-    @UiThreadTest
     public void testSwitch() {
-        onView(ViewMatchers.withId(R.id.stats)).check(matches((isChecked())));
+        onView(withId(R.id.stats)).check(matches(isChecked()));
         onView(withId(R.id.stats)).perform(click());
         onView(withId(R.id.stats)).check(matches(not(isChecked())));
     }
