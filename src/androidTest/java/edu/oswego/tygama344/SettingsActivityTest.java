@@ -2,7 +2,6 @@ package edu.oswego.tygama344;
 
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
@@ -52,9 +51,9 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     @UiThreadTest
     public void testSubmitEnabledWithFilledTextFields() {
         final Button button = (Button) settingsActivity.findViewById(R.id.button);
-        onView(ViewMatchers.withId(R.id.payperiod)).perform(typeText("14"), closeSoftKeyboard());
-        onView(ViewMatchers.withId(R.id.household)).perform(typeText("3"), closeSoftKeyboard());
-        onView(ViewMatchers.withId(R.id.income)).perform(typeText("2000"), closeSoftKeyboard());
+        onView(withId(R.id.payperiod)).perform(typeText("14"), closeSoftKeyboard());
+        onView(withId(R.id.household)).perform(typeText("3"), closeSoftKeyboard());
+        onView(withId(R.id.income)).perform(typeText("2000"), closeSoftKeyboard());
         assertTrue(button.isEnabled());
     }
 

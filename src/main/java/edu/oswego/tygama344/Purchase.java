@@ -7,6 +7,7 @@ public class Purchase {
 	private double amount;
 
     public Purchase(int id, String name, double amount) {
+        //TODO add date to purchase object
         this.id = id;
         this.name = name;
 		this.amount = amount;

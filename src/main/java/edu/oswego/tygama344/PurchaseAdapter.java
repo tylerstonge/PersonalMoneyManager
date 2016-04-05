@@ -12,29 +12,30 @@ import java.util.ArrayList;
 
 public class PurchaseAdapter extends ArrayAdapter<Purchase> {
 
-	Context context;
-	int resource;
-	ArrayList<Purchase> data = null;
+    Context context;
+    int resource;
+    ArrayList<Purchase> data = null;
 
-	public PurchaseAdapter(Context context, int resource, ArrayList<Purchase> data) {
-		super(context, resource, data);
-		this.context = context;
-		this.resource = resource;
-		this.data = data;
-	}
+    public PurchaseAdapter(Context context, int resource, ArrayList<Purchase> data) {
+        super(context, resource, data);
+        this.context = context;
+        this.resource = resource;
+        this.data = data;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-		View row = inflater.inflate(resource, parent, false);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        View row = inflater.inflate(resource, parent, false);
 
-		TextView nameTextView = (TextView) row.findViewById(R.id.nameTextView);
-		TextView amountTextView = (TextView) row.findViewById(R.id.amountTextView);
-		nameTextView.setText(data.get(position).getName());
-		amountTextView.setText(Double.toString(data.get(position).getAmount()));
-		
-		return row;
-	}
+        TextView nameTextView = (TextView) row.findViewById(R.id.nameTextView);
+        TextView amountTextView = (TextView) row.findViewById(R.id.amountTextView);
+        nameTextView.setText(data.get(position).getName());
+        nameTextView.setTag(data.get(position).getId());
+        amountTextView.setText(Double.toString(data.get(position).getAmount()));
+
+        return row;
+    }
 
     public void replaceList(ArrayList<Purchase> list) {
         this.clear();
