@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
             String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
-            Date purchaseDate = new Date(Long.parseLong(StringDate));
+            Date purchaseDate = new Date(Long.parseLong(StringDate)*1000);
             purchases.add(new Purchase(id, name, amount, purchaseDate));
             cursor.moveToNext();
         }
