@@ -8,6 +8,7 @@ public class Purchase {
 
     public Purchase(int id, String name, double amount) {
         //TODO add date to purchase object
+        //TODO store amounts in cents instead of dollar amounts
         this.id = id;
         this.name = name;
 		this.amount = amount;

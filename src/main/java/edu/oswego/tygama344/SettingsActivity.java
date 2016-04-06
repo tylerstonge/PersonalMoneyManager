@@ -1,18 +1,17 @@
 package edu.oswego.tygama344;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-
-import static edu.oswego.tygama344.R.id.submitButton;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 
 
 public class SettingsActivity extends Activity {
@@ -27,9 +26,9 @@ public class SettingsActivity extends Activity {
     boolean householdNotEmpty = false;
     boolean incomeNotEmpty = false;
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //TODO store settings into a file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
