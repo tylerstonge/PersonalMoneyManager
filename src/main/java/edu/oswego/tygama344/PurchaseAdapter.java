@@ -30,9 +30,11 @@ public class PurchaseAdapter extends ArrayAdapter<Purchase> {
 
         TextView nameTextView = (TextView) row.findViewById(R.id.nameTextView);
         TextView amountTextView = (TextView) row.findViewById(R.id.amountTextView);
+        TextView dateTextView = (TextView) row.findViewById(R.id.dateView);
         nameTextView.setText(data.get(position).getName());
         nameTextView.setTag(data.get(position).getId());
         amountTextView.setText(data.get(position).getDollars());
+        dateTextView.setText(data.get(position).getDate().toString());
 
         return row;
     }

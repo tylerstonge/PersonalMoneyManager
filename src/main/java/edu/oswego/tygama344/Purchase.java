@@ -1,5 +1,6 @@
 package edu.oswego.tygama344;
 
+import java.sql.Date;
 import java.text.NumberFormat;
 
 public class Purchase {
@@ -7,14 +8,16 @@ public class Purchase {
     private int id;
     private String name;
 	private int amount;
+    Date purchaseDate;
 
-    public Purchase(int id, String name, int amount) {
+    public Purchase(int id, String name, int amount, Date date) {
         //TODO add date to purchase object
-        //TODO store amounts in cents instead of dollar amounts
         this.id = id;
         this.name = name;
 		this.amount = amount;
-	}
+        this.purchaseDate = date;
+
+    }
 
     public Purchase(String name, int amount) {
         this.id = -1;
@@ -33,6 +36,8 @@ public class Purchase {
 	public int getAmount() {
 		return amount;
 	}
+
+    public Date getDate() {return purchaseDate;}
 
     public String getDollars() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();

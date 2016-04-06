@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
@@ -57,8 +58,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
             cursor.close();
-
-            return new Purchase(id, name, amount);
+            String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
+            Date purchaseDate = new Date(Long.parseLong(StringDate));
+            return new Purchase(id, name, amount, purchaseDate);
         }
         return null;
     }
@@ -73,7 +75,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            purchases.add(new Purchase(id, name, amount));
+            String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
+            Date purchaseDate = new Date(Long.parseLong(StringDate));
+            purchases.add(new Purchase(id, name, amount, purchaseDate));
             cursor.moveToNext();
         }
 
