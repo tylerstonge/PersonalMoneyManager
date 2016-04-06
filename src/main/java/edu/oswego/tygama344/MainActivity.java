@@ -1,7 +1,9 @@
 package edu.oswego.tygama344;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,12 @@ import android.widget.Button;
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
+    static final int SAVE_SETTINGS_REQUEST = 2;
+
+    // Current app settings
+    int payperiod;
+    int household;
+    int income;
 
     MySQLiteHelper db;
 
@@ -24,6 +32,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        // Load stored settings if exist
+        loadSettings();
 
         // Database
         db = new MySQLiteHelper(this);
@@ -58,7 +69,10 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.actionSettings:
                 Intent i1 = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(i1);
+                i1.putExtra("payperiod", payperiod);
+                i1.putExtra("household", household);
+                i1.putExtra("income", income);
+                startActivityForResult(i1, SAVE_SETTINGS_REQUEST);
                 return true;
             case R.id.actionPurchaseHistory:
                 Intent i2 = new Intent(getApplicationContext(), PurchaseHistoryActivity.class);
@@ -86,6 +100,27 @@ public class MainActivity extends Activity {
                 // Store the new purchase object
                 db.insertPurchase(new Purchase(name, (int)(amount*(100))));
             }
+        } else if (requestCode == SAVE_SETTINGS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
+                        Context.MODE_PRIVATE);
+                int payperiod = data.getIntExtra("payperiod", 0);
+                int household = data.getIntExtra("household", 0);
+                int income = data.getIntExtra("income", 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("payperiod", payperiod);
+                editor.putInt("household", household);
+                editor.putInt("income", income);
+                editor.commit();
+                loadSettings();
+            }
         }
+    }
+
+    public void loadSettings() {
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.settingsFile), Context.MODE_PRIVATE);
+        payperiod = preferences.getInt("payperiod", 0);
+        household = preferences.getInt("household", 0);
+        income = preferences.getInt("income", 0);
     }
 }

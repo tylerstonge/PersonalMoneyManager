@@ -11,7 +11,10 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 
 
 public class SettingsActivity extends Activity {
@@ -28,18 +31,25 @@ public class SettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO store settings into a file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        Bundle extras = getIntent().getExtras();
+
+        int payperiodValue = extras.getInt("payperiod");
+        int householdValue = extras.getInt("household");
+        int incomeValue = extras.getInt("income");
 
         // Find the name and amount EditText boxes
         payperiod = (EditText) findViewById(R.id.payperiod);
+        payperiod.setText(String.valueOf(payperiodValue));
         payperiod.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int end, int after) { }
+            public void onTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -47,13 +57,17 @@ public class SettingsActivity extends Activity {
                 unlockButton();
             }
         });
+
         household = (EditText) findViewById(R.id.household);
+        household.setText(String.valueOf(householdValue));
         household.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int end, int after) { }
+            public void onTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -61,13 +75,21 @@ public class SettingsActivity extends Activity {
                 unlockButton();
             }
         });
+
         income = (EditText) findViewById(R.id.income);
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
+        decimalFormatSymbols.setCurrencySymbol("");
+        ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
+        income.setText(nf.format(incomeValue/100f).trim());
         income.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int end, int after) { }
+            public void onTextChanged(CharSequence s, int start, int end, int after) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -82,9 +104,9 @@ public class SettingsActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent result = new Intent();
-                result.putExtra("payperiod", getAmountFromEditText(payperiod));
-                result.putExtra("household", getAmountFromEditText(household));
-                result.putExtra("income", getAmountFromEditText(income));
+                result.putExtra("payperiod", Integer.parseInt(payperiod.getText().toString()));
+                result.putExtra("household", Integer.parseInt(household.getText().toString()));
+                result.putExtra("income", (int) (Float.parseFloat(income.getText().toString())*100f));
                 setResult(Activity.RESULT_OK, result);
                 finish();
             }
@@ -103,8 +125,7 @@ public class SettingsActivity extends Activity {
 
                 if (isChecked) {
 //                    switchStatus.setText("Sending");
-                }
-                else {
+                } else {
 //                    switchStatus.setText("Switch is currently OFF");
                 }
             }
@@ -118,9 +139,4 @@ public class SettingsActivity extends Activity {
             submitButton.setEnabled(false);
         }
     }
-
-    private double getAmountFromEditText(TextView t) {
-        return Double.parseDouble(t.getText().toString());
-    }
-
 }
