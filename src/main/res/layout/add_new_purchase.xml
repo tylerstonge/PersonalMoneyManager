@@ -43,6 +43,26 @@
         android:clickable="false"
         android:text="@string/submitButton" />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/categoryList"
+        android:entries="@array/category_list"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/amountEditText"
+        android:layout_toRightOf="@+id/cancelButton"
+        android:layout_toEndOf="@+id/cancelButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Category:"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/categoryList"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
 
