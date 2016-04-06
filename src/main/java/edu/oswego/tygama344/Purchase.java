@@ -1,12 +1,14 @@
 package edu.oswego.tygama344;
 
+import java.text.NumberFormat;
+
 public class Purchase {
 
     private int id;
     private String name;
-	private double amount;
+	private int amount;
 
-    public Purchase(int id, String name, double amount) {
+    public Purchase(int id, String name, int amount) {
         //TODO add date to purchase object
         //TODO store amounts in cents instead of dollar amounts
         this.id = id;
@@ -14,7 +16,7 @@ public class Purchase {
 		this.amount = amount;
 	}
 
-    public Purchase(String name, double amount) {
+    public Purchase(String name, int amount) {
         this.id = -1;
         this.name = name;
         this.amount = amount;
@@ -28,7 +30,13 @@ public class Purchase {
 		return name;
 	}
 
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
+
+    public String getDollars() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        return nf.format(amount/100f);
+
+    }
 }

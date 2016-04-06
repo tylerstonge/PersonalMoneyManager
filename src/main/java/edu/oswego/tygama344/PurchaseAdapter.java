@@ -32,7 +32,7 @@ public class PurchaseAdapter extends ArrayAdapter<Purchase> {
         TextView amountTextView = (TextView) row.findViewById(R.id.amountTextView);
         nameTextView.setText(data.get(position).getName());
         nameTextView.setTag(data.get(position).getId());
-        amountTextView.setText(Double.toString(data.get(position).getAmount()));
+        amountTextView.setText(data.get(position).getDollars());
 
         return row;
     }

@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
                 String name = data.getStringExtra("name");
                 double amount = data.getDoubleExtra("amount", 0.0);
                 // Store the new purchase object
-                db.insertPurchase(new Purchase(name, amount));
+                db.insertPurchase(new Purchase(name, (int)(amount*(100))));
             }
         }
     }
