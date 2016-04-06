@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+
 public class MainActivity extends Activity {
 
     static final int ADD_NEW_PURCHASE_REQUEST = 1;
@@ -104,9 +105,9 @@ public class MainActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
                         Context.MODE_PRIVATE);
-                int payperiod = data.getIntExtra("payperiod", 0);
-                int household = data.getIntExtra("household", 0);
-                int income = data.getIntExtra("income", 0);
+                int payperiod = data.getIntExtra("payperiod", Calculations.DEFAULT_PAYPERIOD);
+                int household = data.getIntExtra("household", Calculations.DEFAULT_HOUSEHOLD);
+                int income = data.getIntExtra("income", Calculations.DEFAULT_INCOME);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("payperiod", payperiod);
                 editor.putInt("household", household);
@@ -119,8 +120,8 @@ public class MainActivity extends Activity {
 
     public void loadSettings() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.settingsFile), Context.MODE_PRIVATE);
-        payperiod = preferences.getInt("payperiod", 0);
-        household = preferences.getInt("household", 0);
-        income = preferences.getInt("income", 0);
+        payperiod = preferences.getInt("payperiod", Calculations.DEFAULT_PAYPERIOD);
+        household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
+        income = preferences.getInt("income", Calculations.DEFAULT_INCOME);
     }
 }
