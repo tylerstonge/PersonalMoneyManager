@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
                 SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
                         Context.MODE_PRIVATE);
                 int payperiod = data.getIntExtra("payperiod", 0);
-                int household = data.getIntExtra("household", 0);
+                int household = data.getIntExtra("household", 1);
                 int income = data.getIntExtra("income", 0);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("payperiod", payperiod);

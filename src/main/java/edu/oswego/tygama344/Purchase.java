@@ -9,14 +9,15 @@ public class Purchase {
     private String name;
 	private int amount;
     Date purchaseDate;
+    String category;
 
-    public Purchase(int id, String name, int amount, Date date) {
+    public Purchase(int id, String name, int amount, Date date, String category) {
         //TODO add date to purchase object
         this.id = id;
         this.name = name;
 		this.amount = amount;
         this.purchaseDate = date;
-
+        this.category = category;
     }
 
     public Purchase(String name, int amount) {
@@ -42,6 +43,7 @@ public class Purchase {
     public String getDollars() {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         return nf.format(amount/100f);
-
     }
+
+    public String getCategory() {return category;}
 }

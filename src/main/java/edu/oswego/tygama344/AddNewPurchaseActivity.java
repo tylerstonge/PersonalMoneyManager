@@ -54,6 +54,8 @@ public class AddNewPurchaseActivity extends Activity {
 			}
 		});
 
+		
+
 		// Cancel button returns to MainActivity
 		cancelButton = (Button) findViewById(R.id.cancelButton);
 		cancelButton.setOnClickListener(new View.OnClickListener() {

@@ -30,11 +30,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-	public boolean insertPurchase(String name, int amount) {
+	public boolean insertPurchase(String name, int amount, String category) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues vals = new ContentValues();
 		vals.put(DatabaseContract.PurchaseEntry.COLUMN_NAME, name);
 		vals.put(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT, amount);
+        vals.put(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY, category);
 		db.insert(DatabaseContract.PurchaseEntry.TABLE_NAME, null, vals);
 		return true;
 	}
@@ -58,10 +59,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
+            String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
             cursor.close();
             String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
             Date purchaseDate = new Date(Long.parseLong(StringDate));
-            return new Purchase(id, name, amount, purchaseDate);
+            return new Purchase(id, name, amount, purchaseDate, category);
         }
         return null;
     }
@@ -76,9 +78,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
             int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
+            String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
             String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
             Date purchaseDate = new Date(Long.parseLong(StringDate)*1000);
-            purchases.add(new Purchase(id, name, amount, purchaseDate));
+            purchases.add(new Purchase(id, name, amount, purchaseDate, category));
             cursor.moveToNext();
         }
 
@@ -101,5 +104,4 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 new String[]{Integer.toString(id)});
         return rows == 1;
     }
-
 }
