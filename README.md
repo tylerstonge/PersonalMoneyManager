@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/tylerstonge/PersonalMoneyManager.svg?branch=master)](https://travis-ci.org/tylerstonge/PersonalMoneyManager)
 # Personal Money Manager
 
 ## Overview
