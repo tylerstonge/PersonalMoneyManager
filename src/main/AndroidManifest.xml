@@ -10,7 +10,7 @@
             </intent-filter>
         </activity>
 	<activity android:name="AddNewPurchaseActivity" />
-    <activity android:name=".InfoActivity"
+    <activity android:name=".PurchaseHistoryActivity"
               android:parentActivityName=".MainActivity" />
     <activity android:name="SettingsActivity"
         android:parentActivityName=".MainActivity" />
