@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.text.TextWatcher;
 import android.text.Editable;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 public class AddNewPurchaseActivity extends Activity {
 
@@ -42,15 +45,33 @@ public class AddNewPurchaseActivity extends Activity {
 		amountEditText = (EditText) findViewById(R.id.amountEditText);
 		amountEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int end, int after) { }
+			public void beforeTextChanged(CharSequence s, int start, int end, int after) {
+			}
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int end, int after) { }
+			public void onTextChanged(CharSequence s, int start, int end, int after) {
+			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
 				amountNotEmpty = (s.length() > 0);
 				unlockButton();
+			}
+		});
+
+		//category pull dowm list select the category
+		Spinner categoryList = (Spinner) findViewById(R.id.categoryList);
+
+		categoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String category = parent.getItemAtPosition(position).toString();
+				//Toast.makeText(parent.getContext(), "Selected: " + category, Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
 			}
 		});
 
