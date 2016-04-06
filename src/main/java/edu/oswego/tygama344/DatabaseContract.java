@@ -15,6 +15,6 @@ public final class DatabaseContract {
 		public static final String CREATE = "create table " + TABLE_NAME + "(" +
 				_ID + " integer primary key autoincrement, " +
 			COLUMN_NAME + " text not null, " + 
-			COLUMN_AMOUNT + " float not null);";
+			COLUMN_AMOUNT + " integer not null);";
 	}
 }

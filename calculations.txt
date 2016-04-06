@@ -3,5 +3,11 @@ COMPUTATIONS:
 RATIOS:
 Each category to overall spendings
 
+SIMPLE STATS:
 Previous month's spendings
+Overall spending in each category
+
+
+
+
 

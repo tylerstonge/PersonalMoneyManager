@@ -21,6 +21,7 @@ public class AddNewPurchaseActivityTest extends ActivityInstrumentationTestCase2
 
     private AddNewPurchaseActivity addNewPurchaseActivity;
 
+
     public AddNewPurchaseActivityTest() {
         super(AddNewPurchaseActivity.class);
     }

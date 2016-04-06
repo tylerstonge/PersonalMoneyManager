@@ -8,4 +8,10 @@
     <string name="nameEditText">Name</string>
     <string name="amountEditText">Amount</string>
     <string name="actionSettings">Settings</string>
+    <string-array name="category_list">
+        <item>Groceries</item>
+        <item>Entertainment</item>
+        <item>Gas</item>
+        <item>Utilities</item>
+    </string-array>
 </resources>

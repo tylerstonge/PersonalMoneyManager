@@ -28,7 +28,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-	public boolean insertPurchase(String name, float amount) {
+	public boolean insertPurchase(String name, int amount) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues vals = new ContentValues();
 		vals.put(DatabaseContract.PurchaseEntry.COLUMN_NAME, name);
@@ -55,7 +55,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
-            float amount = cursor.getFloat(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
+            int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
             cursor.close();
 
             return new Purchase(id, name, amount);
@@ -72,7 +72,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		while (!cursor.isAfterLast()) {
             int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
             String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
-            float amount = cursor.getFloat(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
+            int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
             purchases.add(new Purchase(id, name, amount));
             cursor.moveToNext();
         }
