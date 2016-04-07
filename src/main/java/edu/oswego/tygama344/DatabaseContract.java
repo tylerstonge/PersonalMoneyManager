@@ -2,6 +2,8 @@ package edu.oswego.tygama344;
 
 import android.provider.BaseColumns;
 
+import java.sql.Date;
+
 public final class DatabaseContract {
 
     public DatabaseContract() {

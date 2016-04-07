@@ -8,8 +8,7 @@ This mobile app must allow me, a user, to categorize my spendings and purchases 
 |------|-----------------|-------------|
 |REQ-1a|3| The system will allow users to enter the size of their household, their income and pay-period |
 |REQ-1b|3| The system will allow the user to change household size, income, and pay-period |
-|REQ-2a|5| The user can input overall cost from each receipt. |
-|REQ-2b|4| Users can save pictures of receipts to reference individual items later. |
+|REQ-2 |5| The user can input overall cost from each receipt. |
 |REQ-3 |5| Items can be categorized by type. |
 |REQ-4 |4| Overall spending in each category can be viewed. |
 |REQ-5 |3| Thresholds cna be set to alert users of overspending in different categories. |
