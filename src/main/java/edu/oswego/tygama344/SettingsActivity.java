@@ -23,6 +23,7 @@ public class SettingsActivity extends Activity {
     private EditText payperiod;
     private EditText household;
     private EditText income;
+    private EditText threshold;
     private Button submitButton;
 
     boolean payeriodNotEmpty = false;
@@ -38,6 +39,7 @@ public class SettingsActivity extends Activity {
         int payperiodValue = extras.getInt("payperiod");
         int householdValue = extras.getInt("household");
         int incomeValue = extras.getInt("income");
+        int thresholdValue = extras.getInt("threshold");
 
         // Find the name and amount EditText boxes
         payperiod = (EditText) findViewById(R.id.payperiod);
@@ -54,7 +56,7 @@ public class SettingsActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 payeriodNotEmpty = (s.length() > 0);
-                unlockButton();
+//                unlockButton();
             }
         });
 
@@ -83,7 +85,8 @@ public class SettingsActivity extends Activity {
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
         decimalFormatSymbols.setCurrencySymbol("");
         ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
-        income.setText(nf.format(incomeValue/100f).trim());
+        income.setText(nf.format(incomeValue/100f).trim().replace(",", ""));
+
         income.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int end, int after) {
@@ -96,13 +99,31 @@ public class SettingsActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 incomeNotEmpty = (s.length() > 0);
-                unlockButton();
+//                unlockButton();
+            }
+        });
+
+        threshold = (EditText) findViewById(R.id.threshold);
+//        threshold.setText(String.valueOf(thresholdValue));
+        threshold.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int end, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int end, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                householdNotEmpty = (s.length() > 0);
+//                unlockButton();
             }
         });
 
         // Submit button sends data back to MainActivity
         submitButton = (Button) findViewById(R.id.button);
-        submitButton.setEnabled(false);
+        submitButton.setEnabled(true);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent result = new Intent();
@@ -135,7 +156,7 @@ public class SettingsActivity extends Activity {
     }
 
     public void unlockButton() {
-        if (payeriodNotEmpty && householdNotEmpty && incomeNotEmpty) {
+        if (((household.getText().toString().length()) > 0) && (Integer.parseInt(household.getText().toString()) >= 1) ) {
             submitButton.setEnabled(true);
         } else {
             submitButton.setEnabled(false);
