@@ -58,6 +58,8 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        //TODO make the button always enabled
+
         household = (EditText) findViewById(R.id.household);
         household.setText(String.valueOf(householdValue));
         household.addTextChangedListener(new TextWatcher() {
