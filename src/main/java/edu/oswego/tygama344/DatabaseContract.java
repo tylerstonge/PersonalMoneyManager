@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public final class DatabaseContract {
 
-	public DatabaseContract() { 
+	public DatabaseContract() {
 		// Empty contructor
 	}
 
@@ -18,7 +18,7 @@ public final class DatabaseContract {
 
 		public static final String CREATE = "create table " + TABLE_NAME + "(" +
 				_ID + " integer primary key autoincrement, " +
-			COLUMN_NAME + " text not null, " + 
+			COLUMN_NAME + " text not null, " +
 			COLUMN_AMOUNT + " integer not null, " +
 			COLUMN_DATE + " bigint not null default (strftime('%s', 'now'))" +
 			COLUMN_CATEGORY + " text not null)";
