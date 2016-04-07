@@ -62,7 +62,7 @@ public class AddNewPurchaseActivity extends Activity {
 		
 
 		//category pull dowm list select the category
-		Spinner categoryList = (Spinner) findViewById(R.id.categoryList);
+		final Spinner categoryList = (Spinner) findViewById(R.id.categoryList);
 
 		categoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
@@ -94,6 +94,7 @@ public class AddNewPurchaseActivity extends Activity {
 				Intent result = new Intent();
 				result.putExtra("name", getNameFromEditText());
 				result.putExtra("amount", getAmountFromEditText());
+				result.putExtra("category", categoryList.getSelectedItem().toString());
 				setResult(Activity.RESULT_OK, result);
 				finish();
 			}

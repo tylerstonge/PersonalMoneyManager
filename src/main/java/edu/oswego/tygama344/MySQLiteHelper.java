@@ -44,6 +44,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         ContentValues vals = new ContentValues();
         vals.put(DatabaseContract.PurchaseEntry.COLUMN_NAME, purchase.getName());
         vals.put(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT, purchase.getAmount());
+        vals.put(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY, purchase.getCategory());
         db.insert(DatabaseContract.PurchaseEntry.TABLE_NAME, null, vals);
         return true;
     }
