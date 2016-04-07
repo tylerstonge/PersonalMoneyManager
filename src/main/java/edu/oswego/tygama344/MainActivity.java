@@ -100,18 +100,18 @@ public class MainActivity extends Activity {
                 double amount = data.getDoubleExtra("amount", 0.0);
                 String category = data.getStringExtra("category");
                 // Store the new purchase object
-                db.insertPurchase(new Purchase(name, (int)(amount*(100))));
+                db.insertPurchase(new Purchase(name, (int) (amount * (100)), category));
             }
         } else if (requestCode == SAVE_SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
-                SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
-                        Context.MODE_PRIVATE);
-
-
+                // Get values from the activity
                 int payperiod = data.getIntExtra("payperiod", Calculations.DEFAULT_PAYPERIOD);
                 int household = data.getIntExtra("household", Calculations.DEFAULT_HOUSEHOLD);
                 int income = data.getIntExtra("income", Calculations.DEFAULT_INCOME);
 
+                // Save the new values to the settings file.
+                SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
+                        Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("payperiod", payperiod);
                 editor.putInt("household", household);
@@ -122,8 +122,12 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * attempts to retrieve user saved settings
+     */
     public void loadSettings() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.settingsFile), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.settingsFile),
+                Context.MODE_PRIVATE);
         payperiod = preferences.getInt("payperiod", Calculations.DEFAULT_PAYPERIOD);
         household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", Calculations.DEFAULT_INCOME);

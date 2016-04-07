@@ -12,11 +12,16 @@ public class Purchase {
     String category;
 
     public Purchase(int id, String name, int amount, Date date, String category) {
-        //TODO add date to purchase object
         this.id = id;
         this.name = name;
 		this.amount = amount;
         this.purchaseDate = date;
+        this.category = category;
+    }
+
+    public Purchase(String name, int amount, String category) {
+        this.name = name;
+        this.amount = amount;
         this.category = category;
     }
 
