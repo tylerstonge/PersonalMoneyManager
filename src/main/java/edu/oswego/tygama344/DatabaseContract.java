@@ -20,7 +20,7 @@ public final class DatabaseContract {
                 _ID + " integer primary key autoincrement, " +
                 COLUMN_NAME + " text not null, " +
                 COLUMN_AMOUNT + " integer not null, " +
-                COLUMN_DATE + " bigint not null default (strftime('%s', 'now'))" +
+                COLUMN_DATE + " bigint not null default (strftime('%s', 'now')), " +
                 COLUMN_CATEGORY + " text not null)";
     }
 }
