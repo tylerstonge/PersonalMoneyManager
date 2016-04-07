@@ -67,8 +67,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         ArrayList<Purchase> purchases = new ArrayList<Purchase>();
         SQLiteDatabase db = this.getReadableDatabase();
         Calendar c = Calendar.getInstance();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE " + DatabaseContract.PurchaseEntry.COLUMN_DATE + "=?",
-                new String[]{c.get(Calendar.MONTH) + ""});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE strftime(%m%Y," + DatabaseContract.PurchaseEntry.COLUMN_DATE + ")=?",
+                new String[]{c.get(Calendar.MONTH) + c.get(Calendar.YEAR) + ""});
         while (!cursor.isAfterLast()) {
             purchases.add(createPurchaseFromCursor(cursor));
             cursor.moveToNext();
