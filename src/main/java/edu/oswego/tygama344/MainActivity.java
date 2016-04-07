@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
@@ -39,6 +43,12 @@ public class MainActivity extends Activity {
 
         // Database
         db = new MySQLiteHelper(this);
+
+        Calculations stats = new Calculations(db, this);
+
+        TextView monthTotal;
+        monthTotal = (TextView) findViewById(R.id.monthtotal);
+        monthTotal.setText(stats.getMonthTotal() + "");
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
