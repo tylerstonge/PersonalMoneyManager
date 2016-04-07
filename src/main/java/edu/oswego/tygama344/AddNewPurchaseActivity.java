@@ -3,14 +3,13 @@ package edu.oswego.tygama344;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.TextWatcher;
-import android.text.Editable;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class AddNewPurchaseActivity extends Activity {
 
@@ -77,7 +76,6 @@ public class AddNewPurchaseActivity extends Activity {
 
 			}
 		});
->
 
 		// Cancel button returns to MainActivity
 		cancelButton = (Button) findViewById(R.id.cancelButton);

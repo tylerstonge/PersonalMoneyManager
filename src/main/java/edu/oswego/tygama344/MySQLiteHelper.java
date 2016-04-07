@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.PurchaseEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.PurchaseEntry.TABLE_NAME);
         onCreate(db);
     }
 
