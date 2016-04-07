@@ -68,7 +68,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Calendar c = Calendar.getInstance();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE " + DatabaseContract.PurchaseEntry.COLUMN_DATE + "=?",
-                new String[] { c.get(Calendar.MONTH)+"" });
+                new String[]{c.get(Calendar.MONTH) + ""});
         while (!cursor.isAfterLast()) {
             purchases.add(createPurchaseFromCursor(cursor));
             cursor.moveToNext();
@@ -82,16 +82,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE " + DatabaseContract.PurchaseEntry.COLUMN_CATEGORY + "=?",
                 new String[]{category});
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             purchases.add(createPurchaseFromCursor(cursor));
             cursor.moveToNext();
         }
-        if (cursor != null) { cursor.close(); }
+        cursor.close();
         return purchases;
     }
 
     public ArrayList<Purchase> getAllPurchases() {
-        ArrayList purchases = new ArrayList<Purchase>();
+        ArrayList<Purchase> purchases = new ArrayList<Purchase>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME, null);
         cursor.moveToFirst();
