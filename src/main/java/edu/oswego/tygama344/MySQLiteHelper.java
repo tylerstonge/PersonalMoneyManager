@@ -58,13 +58,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 DatabaseContract.PurchaseEntry._ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
 
         if (cursor.moveToFirst()) {
-            String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
-            int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
-            cursor.close();
-            String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
-            Date purchaseDate = new Date(Long.parseLong(StringDate));
-            return new Purchase(id, name, amount, purchaseDate, category);
+            return createPurchaseFromCursor(cursor);
         }
         return null;
     }
@@ -76,15 +70,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE " + DatabaseContract.PurchaseEntry.COLUMN_DATE + "=?",
                 new String[] { c.get(Calendar.MONTH)+"" });
         while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
-            String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
-            int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
-            String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
-            Date purchaseDate = new Date(Long.parseLong(StringDate) * 1000);
-            purchases.add(new Purchase(id, name, amount, purchaseDate, category));
+            purchases.add(createPurchaseFromCursor(cursor));
             cursor.moveToNext();
         }
+        cursor.close();
+        return purchases;
+    }
+
+    public ArrayList<Purchase> getPurchasesByCategory(String category) {
+        ArrayList<Purchase> purchases = new ArrayList<Purchase>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseContract.PurchaseEntry.TABLE_NAME + " WHERE " + DatabaseContract.PurchaseEntry.COLUMN_CATEGORY + "=?",
+                new String[]{category});
+        while(!cursor.isAfterLast()) {
+            purchases.add(createPurchaseFromCursor(cursor));
+            cursor.moveToNext();
+        }
+        if (cursor != null) { cursor.close(); }
         return purchases;
     }
 
@@ -95,13 +97,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
-            String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
-            int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
-            String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
-            String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
-            Date purchaseDate = new Date(Long.parseLong(StringDate) * 1000);
-            purchases.add(new Purchase(id, name, amount, purchaseDate, category));
+            purchases.add(createPurchaseFromCursor(cursor));
             cursor.moveToNext();
         }
 
@@ -123,5 +119,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         int rows = db.delete(DatabaseContract.PurchaseEntry.TABLE_NAME, DatabaseContract.PurchaseEntry._ID + "=? ",
                 new String[]{Integer.toString(id)});
         return rows == 1;
+    }
+
+    private Purchase createPurchaseFromCursor(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry._ID));
+        String name = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_NAME));
+        int amount = cursor.getInt(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_AMOUNT));
+        String category = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_CATEGORY));
+        String StringDate = cursor.getString(cursor.getColumnIndex(DatabaseContract.PurchaseEntry.COLUMN_DATE));
+        Date purchaseDate = new Date(Long.parseLong(StringDate) * 1000);
+        return new Purchase(id, name, amount, purchaseDate, category);
     }
 }

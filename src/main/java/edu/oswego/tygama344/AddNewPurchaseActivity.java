@@ -59,7 +59,7 @@ public class AddNewPurchaseActivity extends Activity {
 		});
 
 
-		
+
 
 		//category pull dowm list select the category
 		final Spinner categoryList = (Spinner) findViewById(R.id.categoryList);
@@ -110,7 +110,7 @@ public class AddNewPurchaseActivity extends Activity {
 	}
 
 	private String getNameFromEditText() {
-		return nameEditText.getText().toString();	
+		return nameEditText.getText().toString();
 	}
 
 	private double getAmountFromEditText() {
