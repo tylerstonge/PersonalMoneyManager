@@ -40,14 +40,14 @@ public class DatabaseTest {
     @Test
     public void testInsertPurchase() {
         int before = db.getPurchasesCount();
-        db.insertPurchase("Groceries", 90f);
+        db.insertPurchase("Groceries", 90, "Groceries");
         assertEquals(before + 1, db.getPurchasesCount());
     }
 
     @Test
     public void testInsertPurchaseObject() {
         int before = db.getPurchasesCount();
-        db.insertPurchase(new Purchase("Groceries", 90f));
+        db.insertPurchase(new Purchase("Groceries", 90, "Groceries"));
         assertEquals(before + 1, db.getPurchasesCount());
     }
 
@@ -57,9 +57,9 @@ public class DatabaseTest {
         int before = db.getPurchasesCount();
 
         // Store purchases
-        db.insertPurchase(new Purchase("Gas", 30f));
-        db.insertPurchase(new Purchase("Groceries", 24f));
-        db.insertPurchase(new Purchase("Netflix", 8f));
+        db.insertPurchase(new Purchase("Gas", 30, "Gas"));
+        db.insertPurchase(new Purchase("Groceries", 24, "Groceries"));
+        db.insertPurchase(new Purchase("Netflix", 8, "Entertainment"));
 
         // Get all entries
         ArrayList<Purchase> purchases = db.getAllPurchases();
@@ -71,7 +71,7 @@ public class DatabaseTest {
     @Test
     public void testRemovePurchase() {
         // Insert one purchase to guarantee database is not empty
-        db.insertPurchase("Electricity", 65f);
+        db.insertPurchase("Electricity", 65, "Utilities");
 
         // Get all purchases and choose first
         ArrayList<Purchase> purchases = db.getAllPurchases();

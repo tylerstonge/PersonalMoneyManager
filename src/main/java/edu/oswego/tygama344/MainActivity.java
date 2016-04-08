@@ -46,9 +46,15 @@ public class MainActivity extends Activity {
 
         Calculations stats = new Calculations(db, this);
 
+        String[] categories = {"Groceries", "Entertainment", "Gas", "Utilities", "Misc"};
+
         TextView monthTotal;
         monthTotal = (TextView) findViewById(R.id.monthtotal);
         monthTotal.setText(stats.getMonthTotal() + "");
+
+        TextView totalcategory;
+        totalcategory = (TextView) findViewById(R.id.totalcategory);
+        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
