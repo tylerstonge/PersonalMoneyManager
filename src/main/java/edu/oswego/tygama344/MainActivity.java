@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -44,18 +41,6 @@ public class MainActivity extends Activity {
         // Database
         db = new MySQLiteHelper(this);
 
-        Calculations stats = new Calculations(db, this);
-
-        String[] categories = {"Groceries", "Entertainment", "Gas", "Utilities", "Misc"};
-
-        TextView monthTotal;
-        monthTotal = (TextView) findViewById(R.id.monthtotal);
-        monthTotal.setText(stats.getMonthTotal() + "");
-
-        TextView totalcategory;
-        totalcategory = (TextView) findViewById(R.id.totalcategory);
-        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
-
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +49,24 @@ public class MainActivity extends Activity {
                 startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
             }
         });
+    }
+
+    /**
+     * Called when the user revisits this Activity
+     */
+    @Override
+    public void onResume() {
+        Calculations stats = new Calculations(db, this);
+        String[] categories = getResources().getStringArray(R.array.category_list);
+
+        // Total month spendings
+        TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
+        monthTotal.setText(stats.getMonthTotal() + "");
+
+        // Total in category
+        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
+        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
+        super.onResume();
     }
 
     /**

@@ -5,13 +5,14 @@
     android:orientation="vertical">
 
     <TextView
-            android:id="@+id/info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Info"
-            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:text="Info"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/addNewButton"
@@ -24,20 +25,24 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:text="@string/addNewButton" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/monthtotal"
-            android:layout_below="@+id/info" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+        android:id="@+id/monthtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/info"
+        android:text="New Text" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/totalcategory"
-            android:layout_marginTop="21dp"
-            android:layout_below="@+id/monthtotal" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+        android:id="@+id/totalcategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/monthtotal"
+        android:layout_marginTop="21dp"
+        android:text="New Text" />
 
 </RelativeLayout>
