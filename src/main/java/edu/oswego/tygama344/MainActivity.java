@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -49,6 +51,22 @@ public class MainActivity extends Activity {
                 startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
             }
         });
+
+        //category pull-down list select the category
+        final Spinner categoryTotal = (Spinner) findViewById(R.id.categoryTotal);
+
+        categoryTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoryTotal = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(parent.getContext(), "Selected: " + category, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     /**
@@ -57,7 +75,7 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         Calculations stats = new Calculations(db, this);
-        String[] categories = getResources().getStringArray(R.array.category_list);
+        String[] categories = getResources().getStringArray(R.array.category_month_total);
 
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);

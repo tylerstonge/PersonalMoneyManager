@@ -15,4 +15,11 @@
         <item>Utilities</item>
         <item>Misc</item>
     </string-array>
+    <string-array name="category_month_total">
+        <item>Groceries</item>
+        <item>Entertainment</item>
+        <item>Gas</item>
+        <item>Utilities</item>
+        <item>Misc</item>
+    </string-array>
 </resources>

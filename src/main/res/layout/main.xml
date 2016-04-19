@@ -26,23 +26,62 @@
         android:layout_marginRight="15dp"
         android:text="@string/addNewButton" />
 
-    <TextView
-        android:id="@+id/monthtotal"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_below="@+id/info"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/info"
-        android:text="New Text" />
+        android:layout_marginTop="37dp"
+        android:id="@+id/linearLayout">
 
-    <TextView
-        android:id="@+id/totalcategory"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Month Total:"
+            android:id="@+id/textView6"
+            android:layout_weight="0.26" />
+
+        <TextView
+            android:id="@+id/monthtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:text="New Text"
+            android:layout_above="@+id/totalcategory"
+            android:layout_alignLeft="@+id/info"
+            android:layout_alignStart="@+id/info"
+            android:layout_marginBottom="91dp"
+            android:layout_weight="0.84" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/monthtotal"
-        android:layout_marginTop="21dp"
-        android:text="New Text" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <Spinner
+            android:layout_width="161dp"
+            android:layout_height="54dp"
+            android:id="@+id/categoryTotal"
+            android:spinnerMode="dropdown"
+            android:entries="@array/category_month_total"/>
+
+        <TextView
+            android:id="@+id/totalcategory"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:text="New Text"
+            android:layout_above="@+id/addNewButton"
+            android:layout_alignLeft="@+id/addNewButton"
+            android:layout_alignStart="@+id/addNewButton"
+            android:layout_marginBottom="129dp" />
+    </LinearLayout>
 
 </RelativeLayout>

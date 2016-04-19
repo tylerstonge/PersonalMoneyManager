@@ -52,5 +52,5 @@ dependencies {
     compile 'com.android.support.test:runner:0.4.1'
     compile 'com.android.support.test:rules:0.4.1'
     compile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+   //compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }
