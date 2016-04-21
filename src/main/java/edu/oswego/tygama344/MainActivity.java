@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,17 +16,18 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-    static final int ADD_NEW_PURCHASE_REQUEST = 1;
-    static final int SAVE_SETTINGS_REQUEST = 2;
+    private static final int ADD_NEW_PURCHASE_REQUEST = 1;
+    private static final int SAVE_SETTINGS_REQUEST = 2;
 
     // Current app settings
-    int payperiod;
-    int household;
-    int income;
+    private String userid;
+    private int payperiod;
+    private int household;
+    private int income;
 
-    MySQLiteHelper db;
+    private MySQLiteHelper db;
 
-    Button addButton;
+    private Button addButton;
 
     /**
      * Called when the activity is first created.
@@ -37,6 +39,18 @@ public class MainActivity extends Activity {
 
         // Load stored settings if exist
         loadSettings();
+
+        // Request userid if this is not set
+        if (userid == null) {
+            Server s = new Server();
+            userid = s.requestUserId();
+            SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("userid", s.requestUserId());
+            editor.apply();
+        }
+        Log.e("THIS IS THE USERID", userid);
 
         // Database
         db = new MySQLiteHelper(this);
@@ -135,7 +149,7 @@ public class MainActivity extends Activity {
                 editor.putInt("payperiod", payperiod);
                 editor.putInt("household", household);
                 editor.putInt("income", income);
-                editor.commit();
+                editor.apply();
                 loadSettings();
             }
         }
@@ -150,5 +164,6 @@ public class MainActivity extends Activity {
         payperiod = preferences.getInt("payperiod", Calculations.DEFAULT_PAYPERIOD);
         household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", Calculations.DEFAULT_INCOME);
+        userid = preferences.getString("userid", null);
     }
 }

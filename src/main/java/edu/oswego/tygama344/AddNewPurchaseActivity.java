@@ -3,24 +3,23 @@ package edu.oswego.tygama344;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.TextWatcher;
-import android.text.Editable;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class AddNewPurchaseActivity extends Activity {
 
-	Button cancelButton;
-	Button submitButton;
-	EditText nameEditText;
-	EditText amountEditText;
+	private Button cancelButton;
+	private Button submitButton;
+	private EditText nameEditText;
+	private EditText amountEditText;
 
-	boolean nameNotEmpty = false;
-	boolean amountNotEmpty = false;
+	private boolean nameNotEmpty = false;
+	private boolean amountNotEmpty = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
