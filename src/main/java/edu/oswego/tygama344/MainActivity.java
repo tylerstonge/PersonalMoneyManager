@@ -4,16 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
@@ -31,6 +38,11 @@ public class MainActivity extends Activity {
 
     private Button addButton;
 
+    private PieChart mChart;
+    private int[] yData = new int[2];
+    private String[] xData = new String[2];
+
+
     /**
      * Called when the activity is first created.
      */
@@ -38,6 +50,31 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
+        mChart = new PieChart(this);
+        chart.addView(mChart, 1200, 1200);
+        chart.setBackgroundColor(Color.parseColor("#55656C"));
+        mChart.setUsePercentValues(true);
+
+        // enable hole and configure
+        mChart.setDrawHoleEnabled(true);
+        mChart.setHoleRadius(7);
+        mChart.setTransparentCircleRadius(10);
+
+        // enable rotation of the chart by touch
+        mChart.setRotationAngle(0);
+        mChart.setRotationEnabled(true);
+
+
+        // add data
+        prepareData();
+        addData();
+
+        // customize legends
+        Legend l = mChart.getLegend();
+        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        l.setXEntrySpace(7);
+        l.setYEntrySpace(5);
 
         // Load stored settings if exist
         loadSettings();
@@ -183,5 +220,70 @@ public class MainActivity extends Activity {
         household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", Calculations.DEFAULT_INCOME);
         userid = preferences.getString("userid", null);
+    }
+
+    private void prepareData() {
+        String[] categories = getResources().getStringArray(R.array.category_month_total);
+        Calculations calc = new Calculations(db, this);
+//        for (int i = 0; i < categories.length; i++) {
+//            yData[i] = calc.showCategorySpendings(categories[i]);
+//            xData[i] = categories[i];
+        
+        yData[0] = 100;//int i = calc.calculateNet();
+        yData[1] = 80;//int i = calc.showCategorySpendings(categories[1]);
+        xData[0] = "Groceries";
+        xData[1] = "Gas";
+    }
+
+    private void addData() {
+        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+
+        for (int i = 0; i < yData.length; i++)
+            yVals1.add(new Entry(yData[i], i));
+
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        for (int i = 0; i < xData.length; i++)
+            xVals.add(xData[i]);
+
+        // create pie data set
+        PieDataSet dataSet = new PieDataSet(yVals1, "Category Spendings");
+        dataSet.setSliceSpace(3);
+        dataSet.setSelectionShift(5);
+
+        // add many colors
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+        dataSet.setColors(colors);
+
+        // instantiate pie data object now
+        PieData data = new PieData(xVals, dataSet);
+        data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.GRAY);
+
+        mChart.setData(data);
+
+        // undo all highlights
+        mChart.highlightValues(null);
+
+        // update pie chart
+        mChart.invalidate();
     }
 }

@@ -19,6 +19,7 @@ public class Calculations {
     int household;
     int income;
 
+
     public Calculations(MySQLiteHelper db, Context context) {
         this.db = db;
         this.context = context;
@@ -57,6 +58,7 @@ public class Calculations {
         }
         return total;
     }
+
 
 
 
