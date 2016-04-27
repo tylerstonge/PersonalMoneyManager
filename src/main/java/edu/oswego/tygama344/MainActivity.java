@@ -132,14 +132,15 @@ public class MainActivity extends Activity {
     public void onResume() {
         Calculations stats = new Calculations(db, this);
         String[] categories = getResources().getStringArray(R.array.category_month_total);
-//        prepareData(stats, categories);
+        prepareData(stats, categories);
+        addData();
         // Total month spendings
-        TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
-        monthTotal.setText(stats.getMonthTotal() + "");
+//        TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
+//        monthTotal.setText(stats.getMonthTotal() + "");
 
         // Total in category
-        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
-        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
+//        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
+//        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
         super.onResume();
     }
 

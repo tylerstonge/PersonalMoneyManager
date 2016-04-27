@@ -15,16 +15,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/addNewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/addNewButton" />
+            android:id="@+id/addNewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addNewButton" android:layout_below="@+id/info" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -82,15 +77,6 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/totalcategory"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:text="New Text"
-            android:layout_above="@+id/addNewButton"
-            android:layout_alignLeft="@+id/addNewButton"
-            android:layout_alignStart="@+id/addNewButton"
-            android:layout_marginBottom="129dp" />
     </LinearLayout>
 
 </RelativeLayout>
