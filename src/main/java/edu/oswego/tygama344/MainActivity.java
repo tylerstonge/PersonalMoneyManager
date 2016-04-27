@@ -67,8 +67,8 @@ public class MainActivity extends Activity {
         mChart.setTransparentCircleRadius(10);
 
         // enable rotation of the chart by touch
-        mChart.setRotationAngle(0);
         mChart.setRotationEnabled(true);
+        mChart.setRotationAngle(0);
 
 
         // customize legends

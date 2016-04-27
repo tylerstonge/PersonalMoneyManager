@@ -69,6 +69,14 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/bar" android:layout_below="@+id/linearLayout2"
+                android:layout_alignRight="@+id/addNewButton" android:layout_alignEnd="@+id/addNewButton"
+        >
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
