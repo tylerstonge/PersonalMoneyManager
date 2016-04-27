@@ -58,4 +58,12 @@ public class Server {
         }
     }
 
+    private class SendUserTotalRatio implements Runnable {
+
+        @Override
+        public void run() {
+
+        }
+    }
+
 }
