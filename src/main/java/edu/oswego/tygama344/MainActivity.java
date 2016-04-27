@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
         RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
         mChart = new PieChart(this);
         chart.addView(mChart, 1200, 1200);
-        chart.setBackgroundColor(Color.parseColor("#55656C"));
+        chart.setBackgroundColor(Color.parseColor("#000000"));
         mChart.setUsePercentValues(true);
 
         // enable hole and configure
@@ -73,7 +73,8 @@ public class MainActivity extends Activity {
 
         // customize legends
         Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        l.setTextColor(Color.WHITE);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
 
@@ -109,20 +110,20 @@ public class MainActivity extends Activity {
         });
 
         //category pull-down list select the category
-        final Spinner categoryTotal = (Spinner) findViewById(R.id.categoryTotal);
+//        final Spinner categoryTotal = (Spinner) findViewById(R.id.categoryTotal);
 
-        categoryTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String categoryTotal = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(parent.getContext(), "Selected: " + category, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        categoryTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String categoryTotal = parent.getItemAtPosition(position).toString();
+//                //Toast.makeText(parent.getContext(), "Selected: " + category, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     /**
@@ -135,8 +136,8 @@ public class MainActivity extends Activity {
         prepareData(stats, categories);
         addData();
         // Total month spendings
-//        TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
-//        monthTotal.setText(stats.getMonthTotal() + "");
+        TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
+        monthTotal.setText((float)stats.getMonthTotal()/ 100.0 + "");
 
         // Total in category
 //        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
