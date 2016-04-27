@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     private static final int ADD_NEW_PURCHASE_REQUEST = 1;
     private static final int SAVE_SETTINGS_REQUEST = 2;
 
+
     // Current app settings
     private String userid;
     private int payperiod;
@@ -39,8 +40,9 @@ public class MainActivity extends Activity {
     private Button addButton;
 
     private PieChart mChart;
-    private int[] yData = new int[2];
-    private String[] xData = new String[2];
+    public int[] yData = new int[5];
+    public String[] xData = new String[5];
+
 
 
     /**
@@ -48,6 +50,9 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        String[] categories = getResources().getStringArray(R.array.category_month_total);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
@@ -65,10 +70,6 @@ public class MainActivity extends Activity {
         mChart.setRotationAngle(0);
         mChart.setRotationEnabled(true);
 
-
-        // add data
-        prepareData();
-        addData();
 
         // customize legends
         Legend l = mChart.getLegend();
@@ -93,6 +94,10 @@ public class MainActivity extends Activity {
 
         // Database
         db = new MySQLiteHelper(this);
+        Calculations stats = new Calculations(db, this);
+        prepareData(stats, categories);
+        addData();
+
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
@@ -127,7 +132,7 @@ public class MainActivity extends Activity {
     public void onResume() {
         Calculations stats = new Calculations(db, this);
         String[] categories = getResources().getStringArray(R.array.category_month_total);
-
+//        prepareData(stats, categories);
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
         monthTotal.setText(stats.getMonthTotal() + "");
@@ -222,17 +227,18 @@ public class MainActivity extends Activity {
         userid = preferences.getString("userid", null);
     }
 
-    private void prepareData() {
-        String[] categories = getResources().getStringArray(R.array.category_month_total);
-        Calculations calc = new Calculations(db, this);
-//        for (int i = 0; i < categories.length; i++) {
-//            yData[i] = calc.showCategorySpendings(categories[i]);
-//            xData[i] = categories[i];
-        
-        yData[0] = 100;//int i = calc.calculateNet();
-        yData[1] = 80;//int i = calc.showCategorySpendings(categories[1]);
-        xData[0] = "Groceries";
-        xData[1] = "Gas";
+    private void prepareData(Calculations calc, String[] categories) {
+        int n = calc.getMonthTotal();
+        String s = categories[0];
+        for (int i = 0; i < categories.length; i++) {
+            yData[i] = calc.showCategorySpendings(categories[i]);
+            xData[i] = categories[i];
+        }
+
+//        yData[0] = 100;
+//        yData[1] = 80;
+//        xData[0] = "Groceries";
+//        xData[1] = "Gas";
     }
 
     private void addData() {
