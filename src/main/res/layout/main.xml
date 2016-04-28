@@ -40,13 +40,6 @@
             android:id="@+id/textView6"
             android:layout_weight="0.26" />
 
-        <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/categoryTotal"
-                android:spinnerMode="dropdown"
-                android:entries="@array/category_month_total" android:layout_gravity="center_vertical"
-                android:layout_weight="0.26"/>
         <TextView
             android:id="@+id/monthtotal"
             android:layout_width="wrap_content"
@@ -71,6 +64,14 @@
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/rel" android:layout_below="@+id/linearLayout2"
+                android:layout_alignRight="@+id/addNewButton" android:layout_alignEnd="@+id/addNewButton"
+        >
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/bar" android:layout_below="@+id/linearLayout2"
                 android:layout_alignRight="@+id/addNewButton" android:layout_alignEnd="@+id/addNewButton"
         >
 
