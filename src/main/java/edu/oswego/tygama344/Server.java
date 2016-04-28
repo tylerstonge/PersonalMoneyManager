@@ -22,7 +22,7 @@ public class Server {
      * @return err if there was an error, a userid on success.
      */
     public String requestUserId() {
-        RequestUserId rui = new RequestUserId();
+        UserIdRequest rui = new UserIdRequest();
         Thread t = new Thread(rui);
         t.start();
 
@@ -33,7 +33,23 @@ public class Server {
         return rui.getUserId();
     }
 
-    private class RequestUserId implements Runnable {
+    /**
+     * Returns the current totalratio from the server
+     * @return totalratio
+     */
+    public float getTotalRatio() {
+        TotalRatioRequest gtr = new TotalRatioRequest();
+        Thread t = new Thread(gtr);
+        t.start();
+
+        while (!gtr.complete) {
+            // wait to fail or complete
+        }
+
+        return gtr.getTotalratio();
+    }
+
+    private class UserIdRequest implements Runnable {
 
         private String userid = null;
 
@@ -58,11 +74,30 @@ public class Server {
         }
     }
 
-    private class SendUserTotalRatio implements Runnable {
+    private class TotalRatioRequest implements Runnable {
+
+        float totalratio;
+        boolean complete = false;
 
         @Override
         public void run() {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(serverUrl + "/gimme/totalratio");
+            try {
+                HttpResponse res = httpClient.execute(httpPost);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(res.getEntity().getContent(), "UTF-8"));
+                String json = reader.readLine();
+                JSONObject result = new JSONObject(json);
+                totalratio = (float) result.getDouble("totalratio");
+            } catch (Exception e) {
+                totalratio = -1;
+                e.printStackTrace();
+            }
+            complete = true;
+        }
 
+        public float getTotalratio() {
+            return totalratio;
         }
     }
 
