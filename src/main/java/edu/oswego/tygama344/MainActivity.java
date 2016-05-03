@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -57,9 +56,7 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
-        mChart = new PieChart(this);
-        chart.addView(mChart, 1200, 1200);
+        mChart = (PieChart) findViewById(R.id.rel);
         //chart.setBackgroundColor(Color.parseColor("#000000"));
         mChart.setUsePercentValues(true);
 
