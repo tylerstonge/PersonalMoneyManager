@@ -10,7 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -57,7 +60,7 @@ public class MainActivity extends Activity {
         RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
         mChart = new PieChart(this);
         chart.addView(mChart, 1200, 1200);
-        chart.setBackgroundColor(Color.parseColor("#000000"));
+        //chart.setBackgroundColor(Color.parseColor("#000000"));
         mChart.setUsePercentValues(true);
 
         // enable hole and configure
@@ -66,7 +69,7 @@ public class MainActivity extends Activity {
         mChart.setTransparentCircleRadius(10);
 
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
+        mChart.setRotationEnabled(false);
         mChart.setRotationAngle(0);
 
 
@@ -194,6 +197,9 @@ public class MainActivity extends Activity {
                 String category = data.getStringExtra("category");
                 // Store the new purchase object
                 db.insertPurchase(new Purchase(name, (int) (amount * (100)), category));
+                // Update ratio on external server TODO opt-out of this
+                Server s = new Server();
+                s.putTotalRatio(this.userid, db.getPastMonthTotalRatio(this.household));
             }
         } else if (requestCode == SAVE_SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
