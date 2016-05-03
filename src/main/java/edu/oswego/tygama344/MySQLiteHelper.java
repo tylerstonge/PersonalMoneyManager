@@ -133,6 +133,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public float getPastMonthTotalRatio(int household) {
+        ArrayList<Purchase> purchases = getCurrentMonthsPurchases();
+        float total = 0f;
+        for (Purchase p : purchases) {
+            total += (float) p.getAmount();
+        }
+        total = total / (float) household;
+        return total / 100f;
+    }
+
     public boolean removePurchase(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int rows = db.delete(DatabaseContract.PurchaseEntry.TABLE_NAME, DatabaseContract.PurchaseEntry._ID + "=? ",

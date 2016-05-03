@@ -1,81 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:text="Info"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="vertical">
 
-    <Button
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:text="Info"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
             android:id="@+id/addNewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/addNewButton" android:layout_below="@+id/info" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:text="@string/addNewButton" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_below="@+id/info"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Month Total:"
-            android:id="@+id/textView6"
-            android:layout_weight="0.26" />
-
-        <TextView
-            android:id="@+id/monthtotal"
-            android:layout_width="wrap_content"
-            android:layout_height="47dp"
-            android:text="New Text"
-            android:layout_above="@+id/totalcategory"
-            android:layout_alignLeft="@+id/info"
-            android:layout_alignStart="@+id/info"
-            android:layout_marginBottom="91dp"
-            android:layout_weight="0.84" />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:orientation="vertical"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/info"
+            android:layout_marginTop="37dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.26"
+                android:text="Month Total:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/monthtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_above="@+id/totalcategory"
+                android:layout_alignLeft="@+id/info"
+                android:layout_alignStart="@+id/info"
+                android:layout_marginBottom="91dp"
+                android:layout_weight="0.84"
+                android:text="New Text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:id="@+id/linearLayout2">
+            android:layout_below="@+id/linearLayout"
+            android:orientation="vertical">
 
-        <RelativeLayout
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/rel"
+                android:layout_width="fill_parent"
+                android:layout_height="500dp">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <RelativeLayout
+                android:id="@+id/bar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/rel" android:layout_below="@+id/linearLayout2"
-                android:layout_alignRight="@+id/addNewButton" android:layout_alignEnd="@+id/addNewButton">
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
-
-        <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/bar" android:layout_below="@+id/linearLayout2"
-                android:layout_alignRight="@+id/addNewButton" android:layout_alignEnd="@+id/addNewButton">
-
-        </RelativeLayout>
-
-
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-
-</RelativeLayout>
+</ScrollView>

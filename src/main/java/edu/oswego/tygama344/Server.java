@@ -3,6 +3,7 @@ package edu.oswego.tygama344;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
@@ -47,6 +48,17 @@ public class Server {
         }
 
         return gtr.getTotalratio();
+    }
+
+    /**
+     * Send users totalratio to the server
+     * @param userid the userid previously assigned to the user
+     * @param totalratio the total spendings divided by the household size
+     */
+    public void putTotalRatio(String userid, float totalratio) {
+        StoreTotalRatioRequest strr = new StoreTotalRatioRequest(userid, totalratio);
+        Thread t = new Thread(strr);
+        t.start();
     }
 
     private class UserIdRequest implements Runnable {
@@ -98,6 +110,37 @@ public class Server {
 
         public float getTotalratio() {
             return totalratio;
+        }
+    }
+
+    private class StoreTotalRatioRequest implements Runnable {
+
+        String userid;
+        float totalratio;
+
+        public StoreTotalRatioRequest(String userid, float totalratio) {
+            this.userid = userid;
+            this.totalratio = totalratio;
+        }
+
+        @Override
+        public void run() {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(serverUrl + "/update/totalratio");
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("userid", this.userid);
+                jsonObject.accumulate("totalratio", this.totalratio);
+                String json = jsonObject.toString();
+
+                StringEntity se = new StringEntity(json);
+                httpPost.setEntity(se);
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

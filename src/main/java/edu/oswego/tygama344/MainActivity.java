@@ -10,8 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import com.github.mikephil.charting.charts.BarChart;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -43,7 +44,6 @@ public class MainActivity extends Activity {
     public int[] yData = new int[5];
     public String[] xData = new String[5];
 
-    private BarChart bChart;
 
 
     /**
@@ -56,9 +56,8 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        RelativeLayout chart = (RelativeLayout) findViewById(R.id.rel);
-        mChart = new PieChart(this);
-        chart.addView(mChart, 1200, 1200);
+        mChart = (PieChart) findViewById(R.id.rel);
+        //chart.setBackgroundColor(Color.parseColor("#000000"));
         mChart.setUsePercentValues(true);
 
         // enable hole and configure
@@ -68,7 +67,7 @@ public class MainActivity extends Activity {
 
         // enable rotation of the chart by touch
         mChart.setRotationEnabled(false);
-//        mChart.setRotationAngle(0);
+        mChart.setRotationAngle(0);
 
 
         // customize legends
@@ -77,15 +76,6 @@ public class MainActivity extends Activity {
         l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
-
-
-        bChart = new BarChart(this);
-        chart.addView(bChart, 1200, 1200);
-//        chart.setBackgroundColor(Color.parseColor("#000000"));
-
-
-
-
 
         // Load stored settings if exist
         loadSettings();
@@ -204,6 +194,9 @@ public class MainActivity extends Activity {
                 String category = data.getStringExtra("category");
                 // Store the new purchase object
                 db.insertPurchase(new Purchase(name, (int) (amount * (100)), category));
+                // Update ratio on external server TODO opt-out of this
+                Server s = new Server();
+                s.putTotalRatio(this.userid, db.getPastMonthTotalRatio(this.household));
             }
         } else if (requestCode == SAVE_SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
