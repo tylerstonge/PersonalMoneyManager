@@ -73,12 +73,11 @@
 
             </com.github.mikephil.charting.charts.PieChart>
 
-            <RelativeLayout
-                android:id="@+id/bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </RelativeLayout>
+            <com.github.mikephil.charting.charts.BarChart
+                    android:layout_width="fill_parent"
+                    android:layout_height="500dp"
+                    android:id="@+id/bar">
+            </com.github.mikephil.charting.charts.BarChart>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

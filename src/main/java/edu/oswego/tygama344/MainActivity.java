@@ -13,12 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -44,6 +47,8 @@ public class MainActivity extends Activity {
     public int[] yData = new int[5];
     public String[] xData = new String[5];
 
+    private BarChart bChart;
+
 
 
     /**
@@ -61,21 +66,62 @@ public class MainActivity extends Activity {
         mChart.setUsePercentValues(true);
 
         // enable hole and configure
-        mChart.setDrawHoleEnabled(true);
-        mChart.setHoleRadius(7);
-        mChart.setTransparentCircleRadius(10);
+        mChart.setDrawHoleEnabled(false);
 
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(false);
+        mChart.setRotationEnabled(true);
         mChart.setRotationAngle(0);
 
 
         // customize legends
         Legend l = mChart.getLegend();
         l.setTextColor(Color.WHITE);
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
+
+
+        //*******************************************
+
+
+
+        bChart = (BarChart) findViewById(R.id.bar);
+        bChart.setDescription("Your spendings vs avg spendings");
+        bChart.setDescriptionColor(Color.WHITE);
+        XAxis xAxis = bChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setTypeface(mTf);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceBetweenLabels(2);
+
+//        YAxisValueFormatter custom = new MyYAxisValueFormatter();
+
+        YAxis leftAxis = bChart.getAxisLeft();
+        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setLabelCount(8, false);
+//        leftAxis.setValueFormatter(custom);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+
+        Legend ll = bChart.getLegend();
+        ll.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        ll.setForm(Legend.LegendForm.SQUARE);
+        ll.setFormSize(9f);
+        ll.setTextSize(11f);
+        ll.setXEntrySpace(4f);
+        ll.setTextColor(Color.WHITE);
+
+
+        setBarData();
+
+
+
+
+
+
+
+
 
         // Load stored settings if exist
         loadSettings();
@@ -295,4 +341,30 @@ public class MainActivity extends Activity {
         // update pie chart
         mChart.invalidate();
     }
+
+    private void setBarData() {
+        ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
+        yVals.add(new BarEntry(5,0));
+        yVals.add(new BarEntry(7,1));
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("TotalRatio");
+        xVals.add("TotalRatio");
+        BarDataSet set1 = new BarDataSet(yVals, "dataset");
+
+        set1.setBarSpacePercent(35f);
+//        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(xVals, dataSets);
+        data.setValueTextSize(10f);
+//        data.setValueTypeface(mTf);
+
+        bChart.setData(data);
+    }
+
+
+
+
 }
