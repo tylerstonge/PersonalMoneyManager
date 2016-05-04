@@ -14,14 +14,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -48,6 +51,7 @@ public class MainActivity extends Activity {
     public String[] xData = new String[5];
 
     private BarChart bChart;
+    private LineChart lChart;
 
 
 
@@ -117,7 +121,50 @@ public class MainActivity extends Activity {
         ll.setTextColor(Color.WHITE);
 
 
+        //LINECHART
 
+        lChart = (LineChart) findViewById(R.id.line);
+        lChart.setDescription("");
+//        lChart.setNoDataTextDescription("No data m8");
+
+
+        // x-axis limit line
+        LimitLine llXAxis = new LimitLine(10f, "Index 10");
+        llXAxis.setLineWidth(4f);
+//        llXAxis.enableDashedLine(10f, 10f, 0f);
+        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+        llXAxis.setTextSize(10f);
+
+        XAxis theX = lChart.getXAxis();
+
+        LimitLine ll1 = new LimitLine(500f, "Upper Limit");
+        ll1.setLineWidth(4f);
+//        ll1.enableDashedLine(10f, 10f, 0f);
+        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        ll1.setTextSize(10f);
+        ll1.setTextColor(Color.WHITE);
+
+        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
+        ll2.setLineWidth(4f);
+        ll2.enableDashedLine(10f, 10f, 0f);
+        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+        ll2.setTextSize(10f);
+        ll2.setTextColor(Color.WHITE);
+
+        YAxis left = lChart.getAxisLeft();
+        left.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        left.addLimitLine(ll1);
+        left.addLimitLine(ll2);
+        left.setAxisMaxValue(1000f);
+        left.setAxisMinValue(0f);
+        left.enableGridDashedLine(10f, 10f, 0f);
+        left.setDrawZeroLine(false);
+        left.setTextColor(Color.WHITE);
+
+        // limit lines are drawn behind data (and not on top)
+        leftAxis.setDrawLimitLinesBehindData(true);
+
+        lChart.getAxisRight().setEnabled(false);
 
 
 
@@ -147,6 +194,8 @@ public class MainActivity extends Activity {
         addData();
 
         setBarData();
+
+        setLineData();
 
 
         // Button listener
@@ -186,6 +235,8 @@ public class MainActivity extends Activity {
         addData();
 
         setBarData();
+
+        setLineData();
 
         loadSettings();
         // Total month spendings
@@ -374,6 +425,28 @@ public class MainActivity extends Activity {
 //        data.setValueTypeface(mTf);
 
         bChart.setData(data);
+    }
+
+    private void setLineData() {
+        float serverRatio = new Server().getTotalRatio();
+        float userRatio = db.getPastMonthTotalRatio(household);
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        yVals.add(new BarEntry(serverRatio,0));
+        yVals.add(new BarEntry(userRatio,1));
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("TotalRatio");
+        xVals.add("TotalRatio");
+
+        LineDataSet set1 = new LineDataSet(yVals, "daily spendings");
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        // set data
+        lChart.setData(data);
     }
 
 }

@@ -78,6 +78,12 @@
                     android:layout_height="500dp"
                     android:id="@+id/bar">
             </com.github.mikephil.charting.charts.BarChart>
+
+            <com.github.mikephil.charting.charts.LineChart
+                    android:layout_width="fill_parent"
+                    android:layout_height="500dp"
+                    android:id="@+id/line">
+            </com.github.mikephil.charting.charts.LineChart>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
