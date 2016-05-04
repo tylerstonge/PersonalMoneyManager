@@ -359,13 +359,17 @@ public class MainActivity extends Activity {
     private void addData() {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
-        for (int i = 0; i < yData.length; i++)
-            yVals1.add(new Entry(yData[i], i));
+        for (int i = 0; i < yData.length; i++) {
+            if (yData[i] > 0)
+                yVals1.add(new Entry(yData[i], i));
+        }
 
         ArrayList<String> xVals = new ArrayList<String>();
 
-        for (int i = 0; i < xData.length; i++)
-            xVals.add(xData[i]);
+        for (int i = 0; i < xData.length; i++) {
+            if (yData[i] > 0)
+                xVals.add(xData[i]);
+        }
 
         // create pie data set
         PieDataSet dataSet = new PieDataSet(yVals1, "Category Spendings");
