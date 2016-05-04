@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -85,7 +86,7 @@ public class MainActivity extends Activity {
         l.setYEntrySpace(5);
 
 
-        //*******************************************
+        //BARCHART
 
 
         bChart = (BarChart) findViewById(R.id.bar);
@@ -93,19 +94,23 @@ public class MainActivity extends Activity {
         bChart.setDescriptionColor(Color.WHITE);
         XAxis xAxis = bChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setTypeface(mTf);
         xAxis.setDrawGridLines(false);
         xAxis.setSpaceBetweenLabels(2);
 
-//        YAxisValueFormatter custom = new MyYAxisValueFormatter();
 
         YAxis leftAxis = bChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setLabelCount(8, false);
-//        leftAxis.setValueFormatter(custom);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
         leftAxis.setSpaceTop(15f);
-        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+        leftAxis.setAxisMinValue(0f);
+
+        YAxis rightAxis = bChart.getAxisRight();
+        rightAxis.setEnabled(false);
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setLabelCount(8, false);
+        rightAxis.setSpaceTop(15f);
+        rightAxis.setAxisMinValue(0f);
 
         Legend ll = bChart.getLegend();
         ll.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
@@ -116,7 +121,6 @@ public class MainActivity extends Activity {
         ll.setTextColor(Color.WHITE);
 
 
-        setBarData();
 
 
         // Load stored settings if exist
@@ -139,6 +143,7 @@ public class MainActivity extends Activity {
         prepareData(stats, categories);
         addData();
 
+        setBarData();
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
@@ -175,9 +180,13 @@ public class MainActivity extends Activity {
         String[] categories = getResources().getStringArray(R.array.category_month_total);
         prepareData(stats, categories);
         addData();
+
+        setBarData();
+
+        loadSettings();
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
-        monthTotal.setText((float) stats.getMonthTotal() / 100.0 + "");
+        monthTotal.setText((float)stats.getMonthTotal()/ 100.0 + "");
 
         // Total in category
 //        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
@@ -345,13 +354,15 @@ public class MainActivity extends Activity {
     }
 
     private void setBarData() {
+        float serverRatio = new Server().getTotalRatio();
+        float userRatio = db.getPastMonthTotalRatio(household);
         ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
-        yVals.add(new BarEntry(5, 0));
-        yVals.add(new BarEntry(7, 1));
+        yVals.add(new BarEntry(serverRatio,0));
+        yVals.add(new BarEntry(userRatio,1));
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("TotalRatio");
         xVals.add("TotalRatio");
-        BarDataSet set1 = new BarDataSet(yVals, "dataset");
+        BarDataSet set1 = new BarDataSet(yVals, "ratio");
 
         set1.setBarSpacePercent(35f);
 //        set1.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -361,10 +372,10 @@ public class MainActivity extends Activity {
 
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(10f);
+        data.setValueTextColor(Color.WHITE);
 //        data.setValueTypeface(mTf);
 
         bChart.setData(data);
     }
-
 
 }
