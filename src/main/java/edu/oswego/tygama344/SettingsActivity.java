@@ -29,6 +29,7 @@ public class SettingsActivity extends Activity {
     boolean payeriodNotEmpty = false;
     boolean householdNotEmpty = false;
     boolean incomeNotEmpty = false;
+    boolean sendstatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class SettingsActivity extends Activity {
         int householdValue = extras.getInt("household");
         int incomeValue = extras.getInt("income");
         int thresholdValue = extras.getInt("threshold");
+        sendstatistics = extras.getBoolean("sendstatistics");
 
         // Find the name and amount EditText boxes
         payperiod = (EditText) findViewById(R.id.payperiod);
@@ -85,7 +87,7 @@ public class SettingsActivity extends Activity {
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
         decimalFormatSymbols.setCurrencySymbol("");
         ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
-        income.setText(nf.format(incomeValue/100f).trim().replace(",", ""));
+        income.setText(nf.format(incomeValue / 100f).trim().replace(",", ""));
 
         income.addTextChangedListener(new TextWatcher() {
             @Override
@@ -99,12 +101,10 @@ public class SettingsActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 incomeNotEmpty = (s.length() > 0);
-//                unlockButton();
             }
         });
 
         threshold = (EditText) findViewById(R.id.threshold);
-//        threshold.setText(String.valueOf(thresholdValue));
         threshold.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int end, int after) {
@@ -117,7 +117,6 @@ public class SettingsActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
                 householdNotEmpty = (s.length() > 0);
-//                unlockButton();
             }
         });
 
@@ -129,34 +128,27 @@ public class SettingsActivity extends Activity {
                 Intent result = new Intent();
                 result.putExtra("payperiod", Integer.parseInt(payperiod.getText().toString()));
                 result.putExtra("household", Integer.parseInt(household.getText().toString()));
-                result.putExtra("income", (int) (Float.parseFloat(income.getText().toString())*100f));
+                result.putExtra("income", (int) (Float.parseFloat(income.getText().toString()) * 100f));
+                result.putExtra("sendstatistics", sendstatistics);
                 setResult(Activity.RESULT_OK, result);
                 finish();
             }
         });
 
         mySwitch = (Switch) findViewById(R.id.stats);
-
-        //set the switch to ON
-        mySwitch.setChecked(true);
+        // Load switch from old user preferences
+        mySwitch.setChecked(sendstatistics);
         //attach a listener to check for changes in state
         mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if (isChecked) {
-//                    switchStatus.setText("Sending");
-                } else {
-//                    switchStatus.setText("Switch is currently OFF");
-                }
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sendstatistics = isChecked;
             }
         });
     }
 
     public void unlockButton() {
-        if (((household.getText().toString().length()) > 0) && (Integer.parseInt(household.getText().toString()) >= 1) ) {
+        if (((household.getText().toString().length()) > 0) && (Integer.parseInt(household.getText().toString()) >= 1)) {
             submitButton.setEnabled(true);
         } else {
             submitButton.setEnabled(false);
