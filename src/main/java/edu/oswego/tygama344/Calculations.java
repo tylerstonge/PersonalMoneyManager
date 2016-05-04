@@ -12,12 +12,14 @@ public class Calculations {
     public static final int DEFAULT_PAYPERIOD = 0;
     public static final int DEFAULT_HOUSEHOLD = 1;
     public static final int DEFAULT_INCOME = 0;
+    public static final int DEFAULT_THRESHOLD = 0;
 
     MySQLiteHelper db;
     Context context;
     int payperiod;
     int household;
     int income;
+    int threshold;
 
 
     public Calculations(MySQLiteHelper db, Context context) {
@@ -27,6 +29,8 @@ public class Calculations {
         payperiod = preferences.getInt("payperiod", DEFAULT_PAYPERIOD);
         household = preferences.getInt("household", DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", DEFAULT_INCOME);
+        threshold = preferences.getInt("threshold", DEFAULT_THRESHOLD);
+
     }
 
     public void reloadUserSettings() {
@@ -34,6 +38,7 @@ public class Calculations {
         payperiod = preferences.getInt("payperiod", DEFAULT_PAYPERIOD);
         household = preferences.getInt("household", DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", DEFAULT_INCOME);
+        threshold = preferences.getInt("threshold", DEFAULT_THRESHOLD);
     }
 
     public int getMonthTotal() {
@@ -58,8 +63,5 @@ public class Calculations {
         }
         return total;
     }
-
-
-
 
 }

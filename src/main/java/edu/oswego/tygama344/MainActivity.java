@@ -20,12 +20,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -46,6 +41,7 @@ public class MainActivity extends Activity {
     private int payperiod;
     private int household;
     private int income;
+    private int threshold;
     private boolean sendstatistics;
 
     private MySQLiteHelper db;
@@ -67,6 +63,7 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         String[] categories = getResources().getStringArray(R.array.category_month_total);
 
 
@@ -143,27 +140,19 @@ public class MainActivity extends Activity {
 
         XAxis theX = lChart.getXAxis();
 
-        LimitLine ll1 = new LimitLine(500f, "Upper Limit");
+        LimitLine ll1 = new LimitLine(threshold, "Upper Limit");
         ll1.setLineWidth(4f);
 //        ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         ll1.setTextSize(10f);
         ll1.setTextColor(Color.WHITE);
 
-        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-        ll2.setLineWidth(4f);
-        ll2.enableDashedLine(10f, 10f, 0f);
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        ll2.setTextSize(10f);
-        ll2.setTextColor(Color.WHITE);
-
         YAxis left = lChart.getAxisLeft();
         left.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         left.addLimitLine(ll1);
-        left.addLimitLine(ll2);
         left.setAxisMaxValue(1000f);
         left.setAxisMinValue(0f);
-        left.enableGridDashedLine(10f, 10f, 0f);
+//        left.enableGridDashedLine(10f, 10f, 0f);
         left.setDrawZeroLine(false);
         left.setTextColor(Color.WHITE);
 
@@ -271,6 +260,7 @@ public class MainActivity extends Activity {
                 i1.putExtra("payperiod", payperiod);
                 i1.putExtra("household", household);
                 i1.putExtra("income", income);
+                i1.putExtra("threshold", threshold);
                 i1.putExtra("sendstatistics", sendstatistics);
                 startActivityForResult(i1, SAVE_SETTINGS_REQUEST);
                 return true;
@@ -312,6 +302,7 @@ public class MainActivity extends Activity {
                 int payperiod = data.getIntExtra("payperiod", Calculations.DEFAULT_PAYPERIOD);
                 int household = data.getIntExtra("household", Calculations.DEFAULT_HOUSEHOLD);
                 int income = data.getIntExtra("income", Calculations.DEFAULT_INCOME);
+                int threshold = data.getIntExtra("threshold", Calculations.DEFAULT_THRESHOLD);
                 boolean sendstatistics = data.getBooleanExtra("sendstatistics", true);
 
                 // Save the new values to the settings file.
@@ -321,6 +312,7 @@ public class MainActivity extends Activity {
                 editor.putInt("payperiod", payperiod);
                 editor.putInt("household", household);
                 editor.putInt("income", income);
+                editor.putInt("threshold", threshold);
                 editor.putBoolean("sendstatistics", sendstatistics);
                 editor.apply();
                 loadSettings();
@@ -337,6 +329,7 @@ public class MainActivity extends Activity {
         payperiod = preferences.getInt("payperiod", Calculations.DEFAULT_PAYPERIOD);
         household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", Calculations.DEFAULT_INCOME);
+        threshold = preferences.getInt("threshold", Calculations.DEFAULT_THRESHOLD);
         userid = preferences.getString("userid", null);
         sendstatistics = preferences.getBoolean("sendstatistics", true);
     }
@@ -367,7 +360,7 @@ public class MainActivity extends Activity {
             xVals.add(xData[i]);
 
         // create pie data set
-        PieDataSet dataSet = new PieDataSet(yVals1, "Category Spendings");
+        PieDataSet dataSet = new PieDataSet(yVals1, "");
         dataSet.setSliceSpace(3);
         dataSet.setSelectionShift(5);
 

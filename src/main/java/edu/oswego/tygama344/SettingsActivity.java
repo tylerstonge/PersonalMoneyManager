@@ -105,6 +105,7 @@ public class SettingsActivity extends Activity {
         });
 
         threshold = (EditText) findViewById(R.id.threshold);
+        threshold.setText(String.valueOf(thresholdValue));
         threshold.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int end, int after) {
