@@ -20,7 +20,12 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.*;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
@@ -41,6 +46,7 @@ public class MainActivity extends Activity {
     private int payperiod;
     private int household;
     private int income;
+    private boolean sendstatistics;
 
     private MySQLiteHelper db;
 
@@ -166,13 +172,6 @@ public class MainActivity extends Activity {
 
         lChart.getAxisRight().setEnabled(false);
 
-
-
-
-
-
-
-
         // Load stored settings if exist
         loadSettings();
 
@@ -272,6 +271,7 @@ public class MainActivity extends Activity {
                 i1.putExtra("payperiod", payperiod);
                 i1.putExtra("household", household);
                 i1.putExtra("income", income);
+                i1.putExtra("sendstatistics", sendstatistics);
                 startActivityForResult(i1, SAVE_SETTINGS_REQUEST);
                 return true;
             case R.id.actionPurchaseHistory:
@@ -300,9 +300,11 @@ public class MainActivity extends Activity {
                 String category = data.getStringExtra("category");
                 // Store the new purchase object
                 db.insertPurchase(new Purchase(name, (int) (amount * (100)), category));
-                // Update ratio on external server TODO opt-out of this
-                Server s = new Server();
-                s.putTotalRatio(this.userid, db.getPastMonthTotalRatio(this.household));
+                // Update ratio on external server
+                if (sendstatistics) {
+                    Server s = new Server();
+                    s.putTotalRatio(this.userid, db.getPastMonthTotalRatio(this.household));
+                }
             }
         } else if (requestCode == SAVE_SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -310,6 +312,7 @@ public class MainActivity extends Activity {
                 int payperiod = data.getIntExtra("payperiod", Calculations.DEFAULT_PAYPERIOD);
                 int household = data.getIntExtra("household", Calculations.DEFAULT_HOUSEHOLD);
                 int income = data.getIntExtra("income", Calculations.DEFAULT_INCOME);
+                boolean sendstatistics = data.getBooleanExtra("sendstatistics", true);
 
                 // Save the new values to the settings file.
                 SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
@@ -318,6 +321,7 @@ public class MainActivity extends Activity {
                 editor.putInt("payperiod", payperiod);
                 editor.putInt("household", household);
                 editor.putInt("income", income);
+                editor.putBoolean("sendstatistics", sendstatistics);
                 editor.apply();
                 loadSettings();
             }
@@ -334,6 +338,7 @@ public class MainActivity extends Activity {
         household = preferences.getInt("household", Calculations.DEFAULT_HOUSEHOLD);
         income = preferences.getInt("income", Calculations.DEFAULT_INCOME);
         userid = preferences.getString("userid", null);
+        sendstatistics = preferences.getBoolean("sendstatistics", true);
     }
 
     private void prepareData(Calculations calc, String[] categories) {
