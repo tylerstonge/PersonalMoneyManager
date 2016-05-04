@@ -20,9 +20,15 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.*;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -63,7 +69,6 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         String[] categories = getResources().getStringArray(R.array.category_month_total);
 
 
@@ -351,13 +356,17 @@ public class MainActivity extends Activity {
     private void addData() {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
-        for (int i = 0; i < yData.length; i++)
-            yVals1.add(new Entry(yData[i], i));
+        for (int i = 0; i < yData.length; i++) {
+            if (yData[i] > 0)
+                yVals1.add(new Entry(yData[i], i));
+        }
 
         ArrayList<String> xVals = new ArrayList<String>();
 
-        for (int i = 0; i < xData.length; i++)
-            xVals.add(xData[i]);
+        for (int i = 0; i < xData.length; i++) {
+            if (yData[i] > 0)
+                xVals.add(xData[i]);
+        }
 
         // create pie data set
         PieDataSet dataSet = new PieDataSet(yVals1, "");
