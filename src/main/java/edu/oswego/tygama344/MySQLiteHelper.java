@@ -143,6 +143,37 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return total / 100f;
     }
 
+    public ArrayList<Float> getMonthDailyTotals() {
+        ArrayList<Float> result = new ArrayList<Float>();
+        ArrayList<Purchase> purchases = getCurrentMonthsPurchases();
+
+        // Set date to now
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(System.currentTimeMillis()));
+        // Set the date to 30 days ago
+        c.add(Calendar.DAY_OF_MONTH, -30);
+
+        // Loop over purchases day by day for 30 days, accumulating totals
+        float total = 0f;
+        for (int i = 0; i < 30; i++) {
+            for (Purchase p : purchases) {
+                Calendar purchaseDate = Calendar.getInstance();
+                purchaseDate.setTime(p.getDate());
+                // If Day && Month && Year is the same as index, add to total.
+                if (c.get(Calendar.DAY_OF_MONTH) == purchaseDate.get(Calendar.DAY_OF_MONTH) &&
+                        c.get(Calendar.MONTH) == purchaseDate.get(Calendar.DAY_OF_MONTH) &&
+                        c.get(Calendar.YEAR) == purchaseDate.get(Calendar.YEAR)) {
+                    total += p.getAmount() / 100f;
+                }
+            }
+            // Add days entry, reset total to 0, then increment to next day
+            result.add(total);
+            total = 0f;
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return result;
+    }
+
     public boolean removePurchase(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int rows = db.delete(DatabaseContract.PurchaseEntry.TABLE_NAME, DatabaseContract.PurchaseEntry._ID + "=? ",
