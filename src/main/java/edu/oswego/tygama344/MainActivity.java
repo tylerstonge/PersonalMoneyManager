@@ -64,11 +64,29 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        String[] categories = getResources().getStringArray(R.array.category_month_total);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        String[] categories = getResources().getStringArray(R.array.category_month_total);
+
+        // Load stored settings if exist
+        loadSettings();
+
+        // Request userid if this is not set
+        if (userid == null) {
+            Server s = new Server();
+            userid = s.requestUserId();
+            SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("userid", s.requestUserId());
+            editor.apply();
+        }
+
+        // Database
+        db = new MySQLiteHelper(this);
+        Calculations stats = new Calculations(db, this);
+
         pChart = (PieChart) findViewById(R.id.rel);
         pChart.setUsePercentValues(true);
 
@@ -134,42 +152,10 @@ public class MainActivity extends Activity {
         llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         llXAxis.setTextSize(10f);
 
-        LimitLine ll1 = new LimitLine(threshold, "Upper Limit");
-        ll1.setLineWidth(4f);
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-        ll1.setTextSize(10f);
-        ll1.setTextColor(Color.WHITE);
-
-        YAxis left = lChart.getAxisLeft();
-        left.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        left.addLimitLine(ll1);
-        left.setAxisMaxValue(1000f);
-        left.setAxisMinValue(0f);
-        left.setDrawZeroLine(false);
-        left.setTextColor(Color.WHITE);
-
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
         lChart.getAxisRight().setEnabled(false);
-
-        // Load stored settings if exist
-        loadSettings();
-
-        // Request userid if this is not set
-        if (userid == null) {
-            Server s = new Server();
-            userid = s.requestUserId();
-            SharedPreferences pref = getSharedPreferences(getString(R.string.settingsFile),
-                    Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("userid", s.requestUserId());
-            editor.apply();
-        }
-
-        // Database
-        db = new MySQLiteHelper(this);
-        Calculations stats = new Calculations(db, this);
 
         // Populate graphs
         setPieData(stats, categories);
@@ -410,20 +396,32 @@ public class MainActivity extends Activity {
     }
 
     private void setLineData() {
-        float serverRatio = new Server().getTotalRatio();
-        float userRatio = db.getPastMonthTotalRatio(household);
+        // Make sure Limit is set to current threshold value all the time
+        LimitLine ll1 = new LimitLine((float) threshold / 100f, "Upper Limit");
+        ll1.setLineWidth(4f);
+        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        ll1.setTextSize(10f);
+        ll1.setTextColor(Color.WHITE);
 
-        // Initialize Y-values of Line Chart
+        YAxis left = lChart.getAxisLeft();
+        left.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        left.addLimitLine(ll1);
+        left.setAxisMaxValue(1000f);
+        left.setAxisMinValue(0f);
+        left.setDrawZeroLine(false);
+        left.setTextColor(Color.WHITE);
+        left.addLimitLine(ll1);
+
+        ArrayList<Float> dailyTotals = db.getMonthDailyTotals();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
-        yVals.add(new BarEntry(serverRatio,0));
-        yVals.add(new BarEntry(userRatio,1));
-
-        // Initialize X-values of Line Chart
         ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("TotalRatio");
-        xVals.add("TotalRatio");
 
-        LineDataSet set1 = new LineDataSet(yVals, "daily spendings");
+        for (int i = 0; i < dailyTotals.size(); i++) {
+            yVals.add(new BarEntry(dailyTotals.get(i), i));
+            xVals.add("");
+        }
+
+        LineDataSet set1 = new LineDataSet(yVals, "Daily spendings");
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets

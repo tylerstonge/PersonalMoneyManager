@@ -105,7 +105,7 @@ public class SettingsActivity extends Activity {
         });
 
         threshold = (EditText) findViewById(R.id.threshold);
-        threshold.setText(String.valueOf(thresholdValue));
+        threshold.setText(nf.format(thresholdValue / 100f).trim().replace(",", ""));
         threshold.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int end, int after) {
@@ -130,6 +130,7 @@ public class SettingsActivity extends Activity {
                 result.putExtra("payperiod", Integer.parseInt(payperiod.getText().toString()));
                 result.putExtra("household", Integer.parseInt(household.getText().toString()));
                 result.putExtra("income", (int) (Float.parseFloat(income.getText().toString()) * 100f));
+                result.putExtra("threshold", (int) (Float.parseFloat(threshold.getText().toString()) * 100f));
                 result.putExtra("sendstatistics", sendstatistics);
                 setResult(Activity.RESULT_OK, result);
                 finish();

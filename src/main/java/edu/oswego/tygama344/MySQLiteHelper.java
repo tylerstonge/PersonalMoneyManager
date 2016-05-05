@@ -150,19 +150,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // Set date to now
         Calendar c = Calendar.getInstance();
         c.setTime(new Date(System.currentTimeMillis()));
-        // Set the date to 30 days ago
-        c.add(Calendar.DAY_OF_MONTH, -30);
+        // Set the date to 30 days ago and zero out irrelevant other info (hours, minutes, seconds, milliseconds)
+        c.add(Calendar.DAY_OF_MONTH, -29);
+        c = zeroMeasurementsLessThanDay(c);
+
+        // Create object to hold each purchase date
+        Calendar purchaseDate = Calendar.getInstance();
 
         // Loop over purchases day by day for 30 days, accumulating totals
         float total = 0f;
         for (int i = 0; i < 30; i++) {
             for (Purchase p : purchases) {
-                Calendar purchaseDate = Calendar.getInstance();
                 purchaseDate.setTime(p.getDate());
+                purchaseDate = zeroMeasurementsLessThanDay(purchaseDate);
+
                 // If Day && Month && Year is the same as index, add to total.
-                if (c.get(Calendar.DAY_OF_MONTH) == purchaseDate.get(Calendar.DAY_OF_MONTH) &&
-                        c.get(Calendar.MONTH) == purchaseDate.get(Calendar.DAY_OF_MONTH) &&
-                        c.get(Calendar.YEAR) == purchaseDate.get(Calendar.YEAR)) {
+                if (c.equals(purchaseDate)) {
                     total += p.getAmount() / 100f;
                 }
             }
@@ -172,6 +175,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
         return result;
+    }
+
+    private Calendar zeroMeasurementsLessThanDay(Calendar c) {
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c;
     }
 
     public boolean removePurchase(int id) {
