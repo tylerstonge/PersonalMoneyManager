@@ -171,7 +171,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
             // Add days entry, reset total to 0, then increment to next day
             result.add(total);
-            total = 0f;
             c.add(Calendar.DAY_OF_MONTH, 1);
         }
         return result;

@@ -212,7 +212,7 @@ public class MainActivity extends Activity {
 
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
-        monthTotal.setText((float)stats.getMonthTotal()/ 100.0 + "");
+        monthTotal.setText("$"+(float)stats.getMonthTotal()/ 100.0);
 
         super.onResume();
     }
