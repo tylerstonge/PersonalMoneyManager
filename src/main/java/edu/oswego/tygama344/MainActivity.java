@@ -55,11 +55,11 @@ public class MainActivity extends Activity {
     private Button addButton;
 
     private PieChart mChart;
-    public int[] yData = new int[5];
-    public String[] xData = new String[5];
-
     private BarChart bChart;
     private LineChart lChart;
+
+    public int[] yData = new int[5];
+    public String[] xData = new String[5];
 
 
 
@@ -75,7 +75,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mChart = (PieChart) findViewById(R.id.rel);
-        //chart.setBackgroundColor(Color.parseColor("#000000"));
         mChart.setUsePercentValues(true);
 
         // enable hole and configure
@@ -105,7 +104,6 @@ public class MainActivity extends Activity {
         xAxis.setDrawGridLines(false);
         xAxis.setSpaceBetweenLabels(2);
 
-
         YAxis leftAxis = bChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setLabelCount(8, false);
@@ -133,21 +131,16 @@ public class MainActivity extends Activity {
 
         lChart = (LineChart) findViewById(R.id.line);
         lChart.setDescription("");
-//        lChart.setNoDataTextDescription("No data m8");
 
 
         // x-axis limit line
         LimitLine llXAxis = new LimitLine(10f, "Index 10");
         llXAxis.setLineWidth(4f);
-//        llXAxis.enableDashedLine(10f, 10f, 0f);
         llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         llXAxis.setTextSize(10f);
 
-        XAxis theX = lChart.getXAxis();
-
         LimitLine ll1 = new LimitLine(threshold, "Upper Limit");
         ll1.setLineWidth(4f);
-//        ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         ll1.setTextSize(10f);
         ll1.setTextColor(Color.WHITE);
@@ -157,7 +150,6 @@ public class MainActivity extends Activity {
         left.addLimitLine(ll1);
         left.setAxisMaxValue(1000f);
         left.setAxisMinValue(0f);
-//        left.enableGridDashedLine(10f, 10f, 0f);
         left.setDrawZeroLine(false);
         left.setTextColor(Color.WHITE);
 
@@ -183,11 +175,10 @@ public class MainActivity extends Activity {
         // Database
         db = new MySQLiteHelper(this);
         Calculations stats = new Calculations(db, this);
-        prepareData(stats, categories);
-        addData();
 
+        // Populate graphs
+        setPieData(stats, categories);
         setBarData();
-
         setLineData();
 
 
@@ -222,23 +213,20 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onResume() {
+        // Refresh objects
+        loadSettings();
         Calculations stats = new Calculations(db, this);
         String[] categories = getResources().getStringArray(R.array.category_month_total);
-        prepareData(stats, categories);
-        addData();
 
+        // Populate graphs
+        setPieData(stats, categories);
         setBarData();
-
         setLineData();
 
-        loadSettings();
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
         monthTotal.setText((float)stats.getMonthTotal()/ 100.0 + "");
 
-        // Total in category
-//        TextView totalcategory = (TextView) findViewById(R.id.totalcategory);
-//        totalcategory.setText(stats.showCategorySpendings(categories[0]) + "");
         super.onResume();
     }
 
@@ -339,21 +327,13 @@ public class MainActivity extends Activity {
         sendstatistics = preferences.getBoolean("sendstatistics", true);
     }
 
-    private void prepareData(Calculations calc, String[] categories) {
-        int n = calc.getMonthTotal();
-        String s = categories[0];
+    private void setPieData(Calculations calc, String[] categories) {
+
         for (int i = 0; i < categories.length; i++) {
             yData[i] = calc.showCategorySpendings(categories[i]);
             xData[i] = categories[i];
         }
 
-//        yData[0] = 100;
-//        yData[1] = 80;
-//        xData[0] = "Groceries";
-//        xData[1] = "Gas";
-    }
-
-    private void addData() {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
         for (int i = 0; i < yData.length; i++) {
@@ -421,7 +401,6 @@ public class MainActivity extends Activity {
         BarDataSet set1 = new BarDataSet(yVals, "ratio");
 
         set1.setBarSpacePercent(35f);
-//        set1.setColors(ColorTemplate.MATERIAL_COLORS);
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
         dataSets.add(set1);
@@ -429,7 +408,6 @@ public class MainActivity extends Activity {
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.WHITE);
-//        data.setValueTypeface(mTf);
 
         bChart.setData(data);
     }
@@ -437,9 +415,13 @@ public class MainActivity extends Activity {
     private void setLineData() {
         float serverRatio = new Server().getTotalRatio();
         float userRatio = db.getPastMonthTotalRatio(household);
+
+        // Initialize Y-values of Line Chart
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         yVals.add(new BarEntry(serverRatio,0));
         yVals.add(new BarEntry(userRatio,1));
+
+        // Initialize X-values of Line Chart
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("TotalRatio");
         xVals.add("TotalRatio");
