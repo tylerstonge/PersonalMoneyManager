@@ -54,14 +54,9 @@ public class MainActivity extends Activity {
 
     private Button addButton;
 
-    private PieChart mChart;
+    private PieChart pChart;
     private BarChart bChart;
     private LineChart lChart;
-
-    public int[] yData = new int[5];
-    public String[] xData = new String[5];
-
-
 
 
     /**
@@ -74,19 +69,19 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mChart = (PieChart) findViewById(R.id.rel);
-        mChart.setUsePercentValues(true);
+        pChart = (PieChart) findViewById(R.id.rel);
+        pChart.setUsePercentValues(true);
 
         // enable hole and configure
-        mChart.setDrawHoleEnabled(false);
+        pChart.setDrawHoleEnabled(false);
 
         // enable rotation of the chart by touch
-        mChart.setRotationEnabled(true);
-        mChart.setRotationAngle(0);
+        pChart.setRotationEnabled(true);
+        pChart.setRotationAngle(0);
 
 
         // customize legends
-        Legend l = mChart.getLegend();
+        Legend l = pChart.getLegend();
         l.setTextColor(Color.WHITE);
         l.setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
         l.setXEntrySpace(7);
@@ -328,6 +323,8 @@ public class MainActivity extends Activity {
     }
 
     private void setPieData(Calculations calc, String[] categories) {
+        int[] yData = new int[5];
+        String[] xData = new String[5];
 
         for (int i = 0; i < categories.length; i++) {
             yData[i] = calc.showCategorySpendings(categories[i]);
@@ -380,13 +377,13 @@ public class MainActivity extends Activity {
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.GRAY);
 
-        mChart.setData(data);
+        pChart.setData(data);
 
         // undo all highlights
-        mChart.highlightValues(null);
+        pChart.highlightValues(null);
 
         // update pie chart
-        mChart.invalidate();
+        pChart.invalidate();
     }
 
     private void setBarData() {
