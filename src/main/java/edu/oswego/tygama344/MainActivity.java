@@ -99,6 +99,7 @@ public class MainActivity extends Activity {
 
 
         // customize legends
+        pChart.setDescription("");
         Legend l = pChart.getLegend();
         l.setTextColor(Color.WHITE);
         l.setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
@@ -110,12 +111,13 @@ public class MainActivity extends Activity {
 
 
         bChart = (BarChart) findViewById(R.id.bar);
-        bChart.setDescription("Your spendings vs avg spendings");
+        bChart.setDescription("");
         bChart.setDescriptionColor(Color.WHITE);
         XAxis xAxis = bChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setSpaceBetweenLabels(2);
+        xAxis.setTextColor(Color.WHITE);
 
         YAxis leftAxis = bChart.getAxisLeft();
         leftAxis.setTextColor(Color.WHITE);
@@ -131,6 +133,8 @@ public class MainActivity extends Activity {
         rightAxis.setSpaceTop(15f);
         rightAxis.setAxisMinValue(0f);
 
+        bChart.getLegend().setEnabled(false);
+        /**
         Legend ll = bChart.getLegend();
         ll.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         ll.setForm(Legend.LegendForm.SQUARE);
@@ -138,12 +142,14 @@ public class MainActivity extends Activity {
         ll.setTextSize(11f);
         ll.setXEntrySpace(4f);
         ll.setTextColor(Color.WHITE);
+        **/
 
 
         //LINECHART
 
         lChart = (LineChart) findViewById(R.id.line);
         lChart.setDescription("");
+        lChart.getLegend().setTextColor(Color.WHITE);
 
 
         // x-axis limit line
@@ -379,8 +385,8 @@ public class MainActivity extends Activity {
         yVals.add(new BarEntry(serverRatio,0));
         yVals.add(new BarEntry(userRatio,1));
         ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("TotalRatio");
-        xVals.add("TotalRatio");
+        xVals.add("Average Spending");
+        xVals.add("Your Spending");
         BarDataSet set1 = new BarDataSet(yVals, "ratio");
 
         set1.setBarSpacePercent(35f);
@@ -422,7 +428,7 @@ public class MainActivity extends Activity {
         }
 
         LineDataSet set1 = new LineDataSet(yVals, "Daily spendings");
-
+        set1.setValueTextColor(Color.WHITE);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
 
