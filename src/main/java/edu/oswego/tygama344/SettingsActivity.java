@@ -132,7 +132,6 @@ public class SettingsActivity extends Activity {
                 result.putExtra("income", (int) (Float.parseFloat(income.getText().toString()) * 100f));
                 result.putExtra("threshold", (int) (Float.parseFloat(threshold.getText().toString()) * 100f));
                 result.putExtra("sendstatistics", sendstatistics);
-                result.putExtra("threshold", Integer.parseInt(threshold.getText().toString()));
                 setResult(Activity.RESULT_OK, result);
                 finish();
             }

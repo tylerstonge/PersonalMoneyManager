@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -106,10 +107,7 @@ public class MainActivity extends Activity {
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
 
-
         //BARCHART
-
-
         bChart = (BarChart) findViewById(R.id.bar);
         bChart.setDescription("");
         bChart.setDescriptionColor(Color.WHITE);
@@ -132,17 +130,7 @@ public class MainActivity extends Activity {
         rightAxis.setLabelCount(8, false);
         rightAxis.setSpaceTop(15f);
         rightAxis.setAxisMinValue(0f);
-
         bChart.getLegend().setEnabled(false);
-        /**
-        Legend ll = bChart.getLegend();
-        ll.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-        ll.setForm(Legend.LegendForm.SQUARE);
-        ll.setFormSize(9f);
-        ll.setTextSize(11f);
-        ll.setXEntrySpace(4f);
-        ll.setTextColor(Color.WHITE);
-        **/
 
 
         //LINECHART
@@ -150,24 +138,12 @@ public class MainActivity extends Activity {
         lChart = (LineChart) findViewById(R.id.line);
         lChart.setDescription("");
         lChart.getLegend().setTextColor(Color.WHITE);
-
-
-        // x-axis limit line
-        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-        llXAxis.setLineWidth(4f);
-        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        llXAxis.setTextSize(10f);
-
-        // limit lines are drawn behind data (and not on top)
-        leftAxis.setDrawLimitLinesBehindData(true);
-
         lChart.getAxisRight().setEnabled(false);
 
         // Populate graphs
         setPieData(stats, categories);
         setBarData();
         setLineData();
-
 
         // Button listener
         addButton = (Button) findViewById(R.id.addNewButton);
@@ -177,22 +153,6 @@ public class MainActivity extends Activity {
                 startActivityForResult(i, ADD_NEW_PURCHASE_REQUEST);
             }
         });
-
-        //category pull-down list select the category
-//        final Spinner categoryTotal = (Spinner) findViewById(R.id.categoryTotal);
-
-//        categoryTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String categoryTotal = parent.getItemAtPosition(position).toString();
-//                //Toast.makeText(parent.getContext(), "Selected: " + category, Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
     }
 
     /**
@@ -212,7 +172,7 @@ public class MainActivity extends Activity {
 
         // Total month spendings
         TextView monthTotal = (TextView) findViewById(R.id.monthtotal);
-        monthTotal.setText("$"+(float)stats.getMonthTotal()/ 100.0);
+        monthTotal.setText("$" + (float) stats.getMonthTotal() / 100.0);
 
         super.onResume();
     }
@@ -268,8 +228,17 @@ public class MainActivity extends Activity {
                 String name = data.getStringExtra("name");
                 double amount = data.getDoubleExtra("amount", 0.0);
                 String category = data.getStringExtra("category");
+
                 // Store the new purchase object
                 db.insertPurchase(new Purchase(name, (int) (amount * (100)), category));
+
+                // If the total purchases in last 30 days is over threshold, Toast
+                ArrayList<Float> monthsPurchases = db.getMonthDailyTotals();
+                float total = monthsPurchases.get(monthsPurchases.size() - 1);
+                if (threshold > 0 && total > (threshold / 100f)) {
+                    Toast.makeText(this, "You have exceeded monthly threshold.", Toast.LENGTH_LONG).show();
+                }
+
                 // Update ratio on external server
                 if (sendstatistics) {
                     Server s = new Server();
@@ -382,8 +351,8 @@ public class MainActivity extends Activity {
         float serverRatio = new Server().getTotalRatio();
         float userRatio = db.getPastMonthTotalRatio(household);
         ArrayList<BarEntry> yVals = new ArrayList<BarEntry>();
-        yVals.add(new BarEntry(serverRatio,0));
-        yVals.add(new BarEntry(userRatio,1));
+        yVals.add(new BarEntry(serverRatio, 0));
+        yVals.add(new BarEntry(userRatio, 1));
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("Average Spending");
         xVals.add("Your Spending");
@@ -402,6 +371,12 @@ public class MainActivity extends Activity {
     }
 
     private void setLineData() {
+        // Data
+        ArrayList<Float> dailyTotals = db.getMonthDailyTotals();
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        ArrayList<String> xVals = new ArrayList<String>();
+        float max = dailyTotals.get(dailyTotals.size() - 1);
+
         // Make sure Limit is set to current threshold value all the time
         LimitLine ll1 = new LimitLine((float) threshold / 100f, "Upper Limit");
         ll1.setLineWidth(4f);
@@ -409,18 +384,22 @@ public class MainActivity extends Activity {
         ll1.setTextSize(10f);
         ll1.setTextColor(Color.WHITE);
 
+        LimitLine ll = new LimitLine((30f / payperiod) * (income / 100f), "Monthly Income");
+        ll.setLineWidth(4f);
+        ll.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        ll.setTextSize(10f);
+        ll.setTextColor(Color.WHITE);
+        ll.setLineColor(Color.GREEN);
+
         YAxis left = lChart.getAxisLeft();
         left.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         left.addLimitLine(ll1);
-        left.setAxisMaxValue(1000f);
+        left.addLimitLine(ll);
+        left.setAxisMaxValue(max + (0.05f * max));
         left.setAxisMinValue(0f);
         left.setDrawZeroLine(false);
         left.setTextColor(Color.WHITE);
-        left.addLimitLine(ll1);
 
-        ArrayList<Float> dailyTotals = db.getMonthDailyTotals();
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
 
         for (int i = 0; i < dailyTotals.size(); i++) {
             yVals.add(new BarEntry(dailyTotals.get(i), i));

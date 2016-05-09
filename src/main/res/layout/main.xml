@@ -8,9 +8,9 @@
         android:id="@+id/addNewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="top"
         android:text="@string/addNewButton" />
 
     <ScrollView
@@ -21,18 +21,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!--
-            <TextView
-                android:id="@+id/info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:text="Info"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-             -->
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -75,6 +63,13 @@
                 android:layout_below="@+id/linearLayout"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Spending by Category"/>
+
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/rel"
                     android:layout_width="fill_parent"
@@ -82,10 +77,26 @@
 
                 </com.github.mikephil.charting.charts.PieChart>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:text="Your spending vs. Average user spending"/>
+
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/bar"
                     android:layout_width="fill_parent"
                     android:layout_height="500dp"></com.github.mikephil.charting.charts.BarChart>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:text="Spending in the past 30 days"/>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line"
